@@ -1,7 +1,7 @@
 // ======================================
 // Creators Data Base Ver.2
-// mypage.js
-// Google Apps Script Complete Edition
+// mypage.js（Google Apps Script版）
+// Save Fix Edition
 // Part 1
 // ======================================
 
@@ -31,11 +31,15 @@ const token =
 params.get("token");
 
 
+
 if(!token){
 
-    alert("Tokenがありません。");
+    alert(
+        "Tokenがありません。"
+    );
 
-    location.href="index.html";
+    location.href =
+    "index.html";
 
 }
 
@@ -45,6 +49,7 @@ if(!token){
 // 初期読み込み
 // ==============================
 
+
 async function initializePage(){
 
 
@@ -53,7 +58,7 @@ async function initializePage(){
 
         const [
 
-            membersData,
+            members,
 
             titlesData,
 
@@ -64,21 +69,24 @@ async function initializePage(){
 
 
             fetch(
-                API_URL+"?action=members"
+                API_URL +
+                "?action=members"
             )
             .then(r=>r.json()),
 
 
 
             fetch(
-                API_URL+"?action=titles"
+                API_URL +
+                "?action=titles"
             )
             .then(r=>r.json()),
 
 
 
             fetch(
-                API_URL+"?action=beys"
+                API_URL +
+                "?action=beys"
             )
             .then(r=>r.json())
 
@@ -87,14 +95,17 @@ async function initializePage(){
 
 
 
-        titles = titlesData;
+        titles =
+        titlesData;
 
-        beys = beysData;
+
+        beys =
+        beysData;
 
 
 
         member =
-        membersData.find(
+        members.find(
             m =>
             String(m.Token)
             ===
@@ -111,7 +122,8 @@ async function initializePage(){
             );
 
 
-            location.href="index.html";
+            location.href =
+            "index.html";
 
 
             return;
@@ -146,489 +158,66 @@ async function initializePage(){
 
 
 
+
+
 // ==============================
-// プロフィール
+// プロフィール表示
 // ==============================
+
 
 function loadProfile(){
 
 
-    const name =
-    document.getElementById(
-        "memberName"
-    );
-
-
-    if(name){
-
-        name.textContent =
-        member["名前"] || "";
-
-    }
+    document
+    .getElementById("memberName")
+    .textContent =
+    member["名前"] || "";
 
 
 
-    const id =
-    document.getElementById(
-        "memberId"
-    );
-
-
-    if(id){
-
-        id.textContent =
-        "ID : "
-        +
-        member["ID"];
-
-    }
+    document
+    .getElementById("memberId")
+    .textContent =
+    "ID : "
+    +
+    member["ID"];
 
 
 
-    const point =
-    document.getElementById(
-        "memberPoint"
-    );
-
-
-    if(point){
-
-        point.textContent =
-        (member["ポイント"] || 0)
-        +
-        " PT";
-
-    }
+    document
+    .getElementById("memberPoint")
+    .textContent =
+    (member["ポイント"] || 0)
+    +
+    " PT";
 
 
 
-    const icon =
-    document.getElementById(
-        "memberIcon"
-    );
-
-
-    if(icon){
-
-        icon.src =
-        member["アイコン"]
-        ||
-        "images/default.png";
-
-    }
+    document
+    .getElementById("memberIcon")
+    .src =
+    member["アイコン"]
+    ||
+    "images/default.png";
 
 
 
     loadRecord();
 
+
     loadTitles();
+
 
     loadPartner();
 
 
-}
-
-// ======================================
-// Creators Data Base Ver.2
-// mypage.js（Google Apps Script版）
-// Complete Edition - Part 2
-// ======================================
-
-
-// ==============================
-// 称号一覧
-// ==============================
-
-function loadTitles(){
-
-    const select =
-        document.getElementById("titleSelect");
-
-
-    if(!select){
-
-        return;
-
-    }
-
-
-    select.innerHTML = "";
-
-
-    titles
-
-    .filter(title=>{
-
-
-const result = await fetch(API_URL,{
-
-    method:"POST",
-
-    headers:{
-        "Content-Type":"application/json"
-    },
-
-    body:JSON.stringify({
-
-        action:"updateMember",
-
-        ID:member["ID"],
-
-        選択称号:selectedTitle,
-
-        相棒ベイ:partner
-
-    })
-
-});
-
-
-
-        return (
-
-            title["公開"] === true
-
-            ||
-
-            String(title["公開"]) === "true"
-
-            ||
-
-            String(title["公開"]) === "TRUE"
-
-        );
-
-
-    })
-
-
-    .forEach(title=>{
-
-
-        const option =
-            document.createElement("option");
-
-
-        option.value =
-            title["ID"];
-
-
-        option.textContent =
-            title["名前"];
-
-
-        if(
-
-            title["ID"]
-
-            ===
-
-            member["選択称号"]
-
-        ){
-
-            option.selected = true;
-
-        }
-
-
-        select.appendChild(option);
-
-
-    });
-
 
 }
 
-
-
-// ==============================
-// 使用ベイ一覧
-// ==============================
-
-function loadPartner(){
-
-
-    const select =
-        document.getElementById("partnerSelect");
-
-
-    if(!select){
-
-        return;
-
-    }
-
-
-    select.innerHTML = "";
-
-
-    beys
-
-    .filter(bey=>{
-
-
-        return (
-
-            bey["公開"] === true
-
-            ||
-
-            String(bey["公開"]) === "true"
-
-            ||
-
-            String(bey["公開"]) === "TRUE"
-
-        );
-
-
-    })
-
-
-    .forEach(bey=>{
-
-
-        const option =
-            document.createElement("option");
-
-
-        option.value =
-            bey["ID"];
-
-
-        option.textContent =
-
-        `${bey["名前"]} (${bey["タイプ"]})`;
-
-
-
-        if(
-
-            bey["ID"]
-
-            ===
-
-            member["相棒ベイ"]
-
-        ){
-
-            option.selected = true;
-
-        }
-
-
-        select.appendChild(option);
-
-
-    });
-
-
-
-}
-
-
-
-
-// ==============================
-// 保存
-// ==============================
-
-async function saveProfile(){
-
-
-    try{
-
-
-        const selectedTitle =
-
-        document
-
-        .getElementById("titleSelect")
-
-        .value;
-
-
-
-        const partner =
-
-        document
-
-        .getElementById("partnerSelect")
-
-        .value;
-
-
-
-        const response =
-
-        await fetch(API_URL,{
-
-
-            method:"POST",
-
-
-            headers:{
-
-
-                "Content-Type":
-
-                "application/json"
-
-
-            },
-
-
-            body:JSON.stringify({
-
-
-                action:"updateMember",
-
-
-                ID:member["ID"],
-
-
-                選択称号:selectedTitle,
-
-
-                相棒ベイ:partner
-
-
-            })
-
-
-        });
-
-
-
-        const result =
-
-        await response.json();
-
-
-
-        if(!result.success){
-
-
-            alert(
-
-            "保存に失敗しました。"
-
-            );
-
-
-            return;
-
-
-        }
-
-
-
-        member["選択称号"]
-
-        =
-
-        selectedTitle;
-
-
-
-        member["相棒ベイ"]
-
-        =
-
-        partner;
-
-
-
-        alert(
-
-        "保存しました！"
-
-        );
-
-
-
-    }
-
-
-    catch(error){
-
-
-        console.error(error);
-
-
-        alert(
-
-        "通信エラーが発生しました。"
-
-        );
-
-
-    }
-
-
-
-}
-
-
-
-
-// ==============================
-// 保存ボタン
-// ==============================
-
-const saveButton =
-
-document.getElementById("saveButton");
-
-
-
-if(saveButton){
-
-
-    saveButton
-
-    .addEventListener(
-
-        "click",
-
-        saveProfile
-
-    );
-
-
-}
-
-
-
-// ==============================
-// 初期化開始
-// ==============================
-
-window.onload = ()=>{
-
-
-    initializePage();
-
-
-};
-
-
-
 // ======================================
-// END Part2
-// ======================================
-
-// ======================================
-// Creators Data Base Ver.2
-// mypage.js（Google Apps Script版）
-// Complete Edition - Part 3
-// ======================================
-
-
-// ==============================
 // プロフィール保存
-// ==============================
+// GAS POST対応版
+// ======================================
 
 async function saveProfile(){
 
@@ -647,27 +236,38 @@ async function saveProfile(){
 
 
 
-const result = await fetch(API_URL,{
+        const sendData = {
 
-    method:"POST",
+            action:"updatemember",
 
-    headers:{
-        "Content-Type":"application/json"
-    },
+            ID:
+            member["ID"],
 
-    body:JSON.stringify({
+            選択称号:
+            selectedTitle,
 
-        action:"updateMember",
+            相棒ベイ:
+            partner
 
-        ID:member["ID"],
+        };
 
-        選択称号:selectedTitle,
 
-        相棒ベイ:partner
+        console.log("送信データ",sendData);
 
-    })
 
-});
+
+        const result =
+        await fetch(
+            API_URL,
+            {
+
+                method:"POST",
+
+                body:
+                JSON.stringify(sendData)
+
+            }
+        );
 
 
 
@@ -676,10 +276,16 @@ const result = await fetch(API_URL,{
 
 
 
+        console.log("GAS返答",json);
+
+
+
         if(!json.success){
 
             alert(
-                "保存に失敗しました。"
+                "保存に失敗しました。\n\n"
+                +
+                json.message
             );
 
             return;
@@ -704,9 +310,13 @@ const result = await fetch(API_URL,{
 
     }
 
+
     catch(error){
 
-        console.error(error);
+        console.error(
+            "保存エラー",
+            error
+        );
 
 
         alert(
@@ -717,10 +327,135 @@ const result = await fetch(API_URL,{
 
 }
 
+// ======================================
+// Creators Data Base Ver.2
+// mypage.js（Google Apps Script版）
+// Save Function - Part3
+// ======================================
+
 
 // ==============================
-// 保存ボタン
+// プロフィール保存
 // ==============================
+
+async function saveProfile(){
+
+    try{
+
+
+        const selectedTitle =
+            document
+            .getElementById("titleSelect")
+            .value;
+
+
+
+        const partner =
+            document
+            .getElementById("partnerSelect")
+            .value;
+
+
+
+        const response =
+        await fetch(API_URL,{
+
+            method:"POST",
+
+
+            body:JSON.stringify({
+
+                action:"updatemember",
+
+                ID:
+                member["ID"],
+
+                選択称号:
+                selectedTitle,
+
+                相棒ベイ:
+                partner
+
+            })
+
+        });
+
+
+
+        const result =
+        await response.json();
+
+
+
+        console.log(
+            "Save Result:",
+            result
+        );
+
+
+
+        if(!result.success){
+
+
+            alert(
+
+                "保存に失敗しました。\n\n" +
+
+                result.message
+
+            );
+
+
+            return;
+
+        }
+
+
+
+        // ローカル状態更新
+
+        member["選択称号"] =
+            selectedTitle;
+
+
+        member["相棒ベイ"] =
+            partner;
+
+
+
+        alert(
+            "保存しました！"
+        );
+
+
+    }
+
+
+    catch(error){
+
+
+        console.error(
+            error
+        );
+
+
+        alert(
+
+            "通信エラーが発生しました。"
+
+        );
+
+
+    }
+
+}
+
+
+
+// ==============================
+// 保存ボタン登録
+// ==============================
+
 
 const saveButton =
 document.getElementById("saveButton");
@@ -729,8 +464,11 @@ document.getElementById("saveButton");
 if(saveButton){
 
     saveButton.addEventListener(
+
         "click",
+
         saveProfile
+
     );
 
 }
@@ -741,12 +479,12 @@ if(saveButton){
 // 初期化
 // ==============================
 
-window.onload = () => {
+
+window.onload = function(){
 
     initializePage();
 
 };
-
 
 
 // ======================================
