@@ -613,3 +613,394 @@ setTimeout(()=>{
 // ======================================
 
 
+// ======================================
+// Creators Data Base Ver.2.3
+// record.js
+// Tournament Record
+// Part3
+// ======================================
+
+
+// ==============================
+// 登録ボタン
+// ==============================
+
+const saveRecordButton =
+
+document.getElementById(
+    "saveRecord"
+);
+
+
+
+if(saveRecordButton){
+
+
+    saveRecordButton.addEventListener(
+
+        "click",
+
+        saveRecord
+
+    );
+
+
+}
+
+
+
+
+// ==============================
+// 大会結果保存
+// ==============================
+
+async function saveRecord(){
+
+
+
+    const tournamentId =
+
+    document.getElementById(
+        "tournamentSelect"
+    ).value;
+
+
+
+
+    const champion =
+
+    document.getElementById(
+        "championSelect"
+    ).value;
+
+
+
+    const runnerUp =
+
+    document.getElementById(
+        "runnerUpSelect"
+    ).value;
+
+
+
+    const third =
+
+    document.getElementById(
+        "thirdSelect"
+    ).value;
+
+
+
+    const best4 =
+
+    document.getElementById(
+        "best4Select"
+    ).value;
+
+
+
+
+    const memo =
+
+    document.getElementById(
+        "memo"
+    )
+
+    ?
+
+    document.getElementById(
+        "memo"
+    ).value
+
+    :
+
+    "";
+
+
+
+
+
+    if(!tournamentId){
+
+
+        alert(
+            "大会を選択してください。"
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+    if(!validateRecord()){
+
+
+        return;
+
+
+    }
+
+
+
+
+
+    const data = {
+
+
+        action:
+
+        "savetournament",
+
+
+
+        大会ID:
+
+        tournamentId,
+
+
+
+        優勝:
+
+        champion,
+
+
+
+        準優勝:
+
+        runnerUp,
+
+
+
+        "3位":
+
+        third,
+
+
+
+        ベスト4:
+
+        best4,
+
+
+
+        メモ:
+
+        memo
+
+
+    };
+
+
+
+
+
+    console.log(
+        "送信データ",
+        data
+    );
+
+
+
+
+
+
+    try{
+
+
+        const response =
+
+        await fetch(
+
+            API_URL,
+
+            {
+
+
+                method:"POST",
+
+
+
+                body:
+
+                JSON.stringify(
+                    data
+                )
+
+
+            }
+
+        );
+
+
+
+
+
+
+        const result =
+
+        await response.json();
+
+
+
+
+
+
+        console.log(
+            "GAS結果",
+            result
+        );
+
+
+
+
+
+
+        if(!result.success){
+
+
+            alert(
+
+                "登録失敗\n\n"
+
+                +
+
+                result.message
+
+            );
+
+
+            return;
+
+
+        }
+
+
+
+
+
+
+        alert(
+
+`大会結果を登録しました！
+
+・ポイント反映
+・戦績更新
+・称号チェック
+
+完了しました。`
+
+        );
+
+
+
+
+
+        resetForm();
+
+
+
+
+
+    }
+
+
+    catch(error){
+
+
+        console.error(
+            error
+        );
+
+
+
+        alert(
+
+            "通信エラーが発生しました。"
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+// ==============================
+// 入力リセット
+// ==============================
+
+function resetForm(){
+
+
+
+    const tournament =
+
+    document.getElementById(
+        "tournamentSelect"
+    );
+
+
+
+    if(tournament){
+
+        tournament.value = "";
+
+    }
+
+
+
+    selectIds.forEach(id=>{
+
+
+        const select =
+
+        document.getElementById(id);
+
+
+
+        if(select){
+
+            select.value = "";
+
+        }
+
+
+    });
+
+
+
+
+
+    const memo =
+
+    document.getElementById(
+        "memo"
+    );
+
+
+
+    if(memo){
+
+        memo.value = "";
+
+    }
+
+
+
+}
+
+
+
+// ======================================
+// End Part3
+// ======================================
