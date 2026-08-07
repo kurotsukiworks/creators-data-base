@@ -623,13 +623,17 @@ async function saveProfile(){
 
 
 
-        const result = await fetch(API_URL,{
+const result = await fetch(API_URL,{
 
     method:"POST",
 
+    headers:{
+        "Content-Type":"application/json"
+    },
+
     body:JSON.stringify({
 
-        action:"updatemember",
+        action:"updateMember",
 
         ID:member["ID"],
 
