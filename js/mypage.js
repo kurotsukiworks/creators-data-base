@@ -1,14 +1,23 @@
 // ======================================
 // Creators Data Base Ver.2
-// mypage.js（Google Apps Script版）
-// Complete Edition
+// mypage.js
+// Google Apps Script Edition
+// Rebuild Complete Version
 // Part 1
 // ======================================
 
 
+// ==============================
+// GAS URL
+// ==============================
+
 const API_URL =
 "https://script.google.com/macros/s/AKfycby7UMjPGJ_gUILneRA4pcc8idt2LMJIezWCokacvk-9_b-NEO8KXYR2gdXqN3ww4dCh9g/exec";
 
+
+// ==============================
+// Data
+// ==============================
 
 let member = null;
 
@@ -44,50 +53,47 @@ if(!token){
 }
 
 
+
 // ==============================
 // 初期読み込み
 // ==============================
 
 async function initializePage(){
 
+
     try{
 
 
-        const [
-
-            membersData,
-
-            titlesData,
-
-            beysData
-
-
-        ] = await Promise.all([
-
-
-            fetch(
-                API_URL +
-                "?action=members"
-            )
-            .then(res=>res.json()),
+        const membersData =
+        await fetch(
+            API_URL +
+            "?action=members"
+        )
+        .then(
+            res=>res.json()
+        );
 
 
 
-            fetch(
-                API_URL +
-                "?action=titles"
-            )
-            .then(res=>res.json()),
+        const titlesData =
+        await fetch(
+            API_URL +
+            "?action=titles"
+        )
+        .then(
+            res=>res.json()
+        );
 
 
 
-            fetch(
-                API_URL +
-                "?action=beys"
-            )
-            .then(res=>res.json())
-
-        ]);
+        const beysData =
+        await fetch(
+            API_URL +
+            "?action=beys"
+        )
+        .then(
+            res=>res.json()
+        );
 
 
 
@@ -134,13 +140,16 @@ async function initializePage(){
         loadProfile();
 
 
+
     }
 
 
     catch(error){
 
 
-        console.error(error);
+        console.error(
+            error
+        );
 
 
         alert(
@@ -149,6 +158,7 @@ async function initializePage(){
 
 
     }
+
 
 }
 
@@ -159,6 +169,7 @@ async function initializePage(){
 // ==============================
 
 function loadProfile(){
+
 
 
     const name =
@@ -236,6 +247,7 @@ function loadProfile(){
 
 }
 
+
 // ======================================
 // 戦績表示
 // ======================================
@@ -243,63 +255,52 @@ function loadProfile(){
 function loadRecord(){
 
 
-    const champion =
-    document.getElementById(
-        "championCount"
-    );
+    const recordList = [
 
+        {
+            id:"championCount",
+            key:"優勝"
+        },
 
-    if(champion){
+        {
+            id:"runnerUpCount",
+            key:"準優勝"
+        },
 
-        champion.textContent =
-        member["優勝"] || 0;
+        {
+            id:"thirdCount",
+            key:"3位"
+        },
 
-    }
+        {
+            id:"best4Count",
+            key:"ベスト4"
+        }
 
-
-
-    const runner =
-    document.getElementById(
-        "runnerUpCount"
-    );
-
-
-    if(runner){
-
-        runner.textContent =
-        member["準優勝"] || 0;
-
-    }
+    ];
 
 
 
-    const third =
-    document.getElementById(
-        "thirdCount"
-    );
+    recordList.forEach(item=>{
 
 
-    if(third){
-
-        third.textContent =
-        member["3位"] || 0;
-
-    }
+        const element =
+        document.getElementById(
+            item.id
+        );
 
 
-
-    const best4 =
-    document.getElementById(
-        "best4Count"
-    );
+        if(element){
 
 
-    if(best4){
+            element.textContent =
+            member[item.key] || 0;
 
-        best4.textContent =
-        member["ベスト4"] || 0;
 
-    }
+        }
+
+
+    });
 
 
 }
@@ -326,40 +327,33 @@ function loadTitles(){
     }
 
 
+
     select.innerHTML = "";
 
 
 
-    titles
-
-    .filter(title=>{
+    titles.forEach(title=>{
 
 
-        return (
+        const isPublic =
 
-            title["公開"] === true
+        title["公開"] === true
 
-            ||
+        ||
 
-            String(title["公開"])
-            .toLowerCase()
-            ===
-            "true"
-
-            ||
-
-            String(title["公開"])
-            .toLowerCase()
-            ===
-            "公開"
-
-        );
+        String(title["公開"])
+        .toLowerCase()
+        ===
+        "true";
 
 
-    })
 
+        if(!isPublic){
 
-    .forEach(title=>{
+            return;
+
+        }
+
 
 
         const option =
@@ -408,9 +402,8 @@ function loadTitles(){
 
 
 
-
 // ======================================
-// 使用ベイ一覧
+// ベイ一覧
 // ======================================
 
 function loadPartner(){
@@ -434,36 +427,28 @@ function loadPartner(){
 
 
 
-    beys
-
-    .filter(bey=>{
+    beys.forEach(bey=>{
 
 
-        return (
+        const isPublic =
 
-            bey["公開"] === true
+        bey["公開"] === true
 
-            ||
+        ||
 
-            String(bey["公開"])
-            .toLowerCase()
-            ===
-            "true"
-
-            ||
-
-            String(bey["公開"])
-            .toLowerCase()
-            ===
-            "公開"
-
-        );
+        String(bey["公開"])
+        .toLowerCase()
+        ===
+        "true";
 
 
-    })
 
+        if(!isPublic){
 
-    .forEach(bey=>{
+            return;
+
+        }
+
 
 
         const option =
@@ -521,23 +506,44 @@ async function saveProfile(){
     try{
 
 
+        const titleSelect =
+        document.getElementById(
+            "titleSelect"
+        );
+
+
+        const partnerSelect =
+        document.getElementById(
+            "partnerSelect"
+        );
+
+
+
         const selectedTitle =
 
-        document
-        .getElementById(
-            "titleSelect"
-        )
-        .value;
+        titleSelect
+
+        ?
+
+        titleSelect.value
+
+        :
+
+        "";
 
 
 
-        const partner =
+        const selectedPartner =
 
-        document
-        .getElementById(
-            "partnerSelect"
-        )
-        .value;
+        partnerSelect
+
+        ?
+
+        partnerSelect.value
+
+        :
+
+        "";
 
 
 
@@ -545,6 +551,7 @@ async function saveProfile(){
 
 
             action:
+
             "updatemember",
 
 
@@ -563,7 +570,7 @@ async function saveProfile(){
 
             相棒ベイ:
 
-            partner
+            selectedPartner
 
 
         };
@@ -585,8 +592,7 @@ async function saveProfile(){
 
             {
 
-                method:
-                "POST",
+                method:"POST",
 
 
                 body:
@@ -609,7 +615,7 @@ async function saveProfile(){
 
 
         console.log(
-            "GAS結果",
+            "GAS返答",
             result
         );
 
@@ -620,7 +626,7 @@ async function saveProfile(){
 
             alert(
 
-                "保存に失敗しました。\n\n"
+                "保存失敗\n\n"
 
                 +
 
@@ -631,19 +637,18 @@ async function saveProfile(){
 
             return;
 
-
         }
 
 
 
-        // 画面内データ更新
+        // 表示中データ更新
 
         member["選択称号"] =
         selectedTitle;
 
 
         member["相棒ベイ"] =
-        partner;
+        selectedPartner;
 
 
 
@@ -664,7 +669,6 @@ async function saveProfile(){
         );
 
 
-
         alert(
             "通信エラーが発生しました。"
         );
@@ -678,7 +682,7 @@ async function saveProfile(){
 
 
 // ======================================
-// 保存ボタン
+// 保存ボタン登録
 // ======================================
 
 const saveButton =
@@ -705,19 +709,11 @@ if(saveButton){
 
 
 
-
 // ======================================
-// ページ開始
+// 起動
 // ======================================
 
-window.onload = function(){
-
-
-    initializePage();
-
-
-};
-
+initializePage();
 
 
 // ======================================
