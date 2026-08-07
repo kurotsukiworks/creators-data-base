@@ -623,34 +623,23 @@ async function saveProfile(){
 
 
 
-        const result =
-        await fetch(API_URL,{
+        const result = await fetch(API_URL,{
 
-            method:"POST",
+    method:"POST",
 
-            headers:{
+    body:JSON.stringify({
 
-                "Content-Type":
-                "application/json"
+        action:"updatemember",
 
-            },
+        ID:member["ID"],
 
-            body:JSON.stringify({
+        選択称号:selectedTitle,
 
-                action:"updateMember",
+        相棒ベイ:partner
 
-                ID:
-                member["ID"],
+    })
 
-                選択称号:
-                selectedTitle,
-
-                相棒ベイ:
-                partner
-
-            })
-
-        });
+});
 
 
 
