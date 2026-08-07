@@ -1,0 +1,46 @@
+[
+  {
+    "id": "TITLE001",
+    "name": "Creator Rookie",
+    "category": "通常",
+    "description": "Creatorsへようこそ。",
+    "color": "#9E9E9E",
+    "active": true
+  },
+
+  {
+    "id": "TITLE002",
+    "name": "Creator Member",
+    "category": "通常",
+    "description": "正式メンバー",
+    "color": "#2196F3",
+    "active": true
+  },
+
+  {
+    "id": "TITLE003",
+    "name": "Creator Master",
+    "category": "通常",
+    "description": "チームを支えるマスター",
+    "color": "#FFC107",
+    "active": true
+  },
+
+  {
+    "id": "TITLE004",
+    "name": "Tournament Champion",
+    "category": "大会",
+    "description": "大会優勝者",
+    "color": "#FF9800",
+    "active": true
+  },
+
+  {
+    "id": "TITLE005",
+    "name": "Legend",
+    "category": "限定",
+    "description": "特別称号",
+    "color": "#E91E63",
+    "active": true
+  }
+]

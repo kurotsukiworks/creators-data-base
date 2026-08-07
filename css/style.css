@@ -1,0 +1,1250 @@
+/* =======================================================
+   Creators Data Base Ver.2
+======================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:'Noto Sans JP',sans-serif;
+
+    background:linear-gradient(
+        180deg,
+        #FFE55A 0%,
+        #FFD53A 45%,
+        #F8C900 100%
+    );
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    color:#111;
+
+}
+
+/* ---------------- Background ---------------- */
+
+.background{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+.left-line{
+
+    position:fixed;
+
+    left:34px;
+
+    top:0;
+
+    width:10px;
+
+    height:100%;
+
+    background:#111;
+
+}
+
+.left-line2{
+
+    position:fixed;
+
+    left:58px;
+
+    top:0;
+
+    width:6px;
+
+    height:100%;
+
+    background:#111;
+
+}
+
+/* うっすら格子 */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+
+    linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),
+
+    linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
+
+    background-size:60px 60px;
+
+    opacity:.25;
+
+    z-index:-2;
+
+}
+
+/* ---------------- Layout ---------------- */
+
+.container{
+
+    width:min(92%,520px);
+
+    margin:auto;
+
+    padding:40px 0 70px;
+
+}
+
+/* ---------------- Logo ---------------- */
+
+.logo{
+
+    width:170px;
+
+    display:block;
+
+    margin:10px auto 30px;
+
+    filter:
+
+        drop-shadow(0 8px 18px rgba(0,0,0,.35));
+
+    animation:logoFloat 4s ease-in-out infinite;
+
+}
+
+@keyframes logoFloat{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ---------------- Title ---------------- */
+
+.title{
+
+    text-align:center;
+
+    font-size:58px;
+
+    font-weight:900;
+
+    color:#fff;
+
+    letter-spacing:4px;
+
+    text-shadow:
+
+        5px 5px 0 #111,
+
+        0 0 20px rgba(255,255,255,.55);
+
+    animation:titleGlow 3s ease-in-out infinite;
+
+}
+
+.subTitle{
+
+    text-align:center;
+
+    margin-top:14px;
+
+    margin-bottom:55px;
+
+    font-size:20px;
+
+    letter-spacing:6px;
+
+    color:#333;
+
+    font-weight:bold;
+
+}
+
+@keyframes titleGlow{
+
+    0%{
+
+        text-shadow:
+        5px 5px 0 #111,
+        0 0 8px rgba(255,255,255,.2);
+
+    }
+
+    50%{
+
+        text-shadow:
+        5px 5px 0 #111,
+        0 0 25px rgba(255,255,255,.9);
+
+    }
+
+    100%{
+
+        text-shadow:
+        5px 5px 0 #111,
+        0 0 8px rgba(255,255,255,.2);
+
+    }
+
+}
+
+/* =======================================================
+   Menu
+======================================================= */
+
+.menu{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+/* ---------- ボタン ---------- */
+
+.menuButton{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    width:100%;
+
+    min-height:74px;
+
+    padding:0 28px;
+
+    background:rgba(255,248,215,.92);
+
+    color:#111;
+
+    text-decoration:none;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    border-left:8px solid #111;
+
+    border-bottom:8px solid #111;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+/* 光が流れる */
+
+.menuButton::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-140%;
+
+    width:70%;
+
+    height:100%;
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.7),
+
+        transparent
+
+    );
+
+}
+
+.menuButton:hover::before{
+
+    animation:shine .8s;
+
+}
+
+.menuButton:hover{
+
+    transform:translateX(10px);
+
+    background:#fff8d7;
+
+}
+
+.menuButton:active{
+
+    transform:scale(.98);
+
+}
+
+/* =======================================================
+   管理者ボタン
+======================================================= */
+
+.adminArea{
+
+    margin-top:70px;
+
+}
+
+.adminButton{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:100%;
+
+    min-height:74px;
+
+    background:#111;
+
+    color:#FFD400;
+
+    text-decoration:none;
+
+    font-size:28px;
+
+    font-weight:900;
+
+    border:4px solid #FFD400;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+.adminButton::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-140%;
+
+    width:70%;
+
+    height:100%;
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,212,0,.5),
+
+        transparent
+
+    );
+
+}
+
+.adminButton:hover::before{
+
+    animation:shine .8s;
+
+}
+
+.adminButton:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 0 25px rgba(255,212,0,.55);
+
+}
+
+.adminButton:active{
+
+    transform:scale(.98);
+
+}
+
+/* =======================================================
+   Version
+======================================================= */
+
+.version{
+
+    margin-top:40px;
+
+    text-align:center;
+
+    color:#333;
+
+    font-size:15px;
+
+    line-height:1.8;
+
+    letter-spacing:2px;
+
+}
+
+/* =======================================================
+   Animation
+======================================================= */
+
+@keyframes shine{
+
+    from{
+
+        left:-140%;
+
+    }
+
+    to{
+
+        left:170%;
+
+    }
+
+}
+
+/* =======================================================
+   Common Card
+======================================================= */
+
+.card{
+
+    background:rgba(255,248,215,.92);
+
+    border-left:8px solid #111;
+
+    border-bottom:8px solid #111;
+
+    padding:24px;
+
+    margin:22px 0;
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-3px);
+
+}
+
+/* =======================================================
+   Member Card
+======================================================= */
+
+.memberCard{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    background:rgba(255,248,215,.92);
+
+    border-left:8px solid #111;
+
+    border-bottom:8px solid #111;
+
+    padding:18px;
+
+    margin:18px 0;
+
+    transition:.25s;
+
+}
+
+.memberCard:hover{
+
+    transform:translateX(8px);
+
+}
+
+/* アイコン */
+
+.memberIcon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:4px solid #111;
+
+    background:white;
+
+    flex-shrink:0;
+
+}
+
+/* 情報 */
+
+.memberInfo{
+
+    flex:1;
+
+}
+
+.memberName{
+
+    font-size:30px;
+
+    font-weight:900;
+
+    margin-bottom:8px;
+
+}
+
+.memberTitle{
+
+    color:#444;
+
+    font-size:16px;
+
+    margin-bottom:10px;
+
+}
+
+.memberPoint{
+
+    display:inline-block;
+
+    background:#111;
+
+    color:#FFD400;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+/* =======================================================
+   Detail Card
+======================================================= */
+
+.infoBox{
+
+    margin-top:18px;
+
+    padding:16px;
+
+    border-left:6px solid #FFD400;
+
+    background:#fffdf2;
+
+}
+
+.infoTitle{
+
+    font-size:15px;
+
+    color:#666;
+
+    margin-bottom:6px;
+
+}
+
+.infoValue{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#111;
+
+}
+
+/* =======================================================
+   Form
+======================================================= */
+
+.inputBox,
+select,
+textarea{
+
+    width:100%;
+
+    margin-top:10px;
+
+    padding:15px;
+
+    font-size:18px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:white;
+
+    border:2px solid #ddd;
+
+    transition:.2s;
+
+}
+
+.inputBox:focus,
+select:focus,
+textarea:focus{
+
+    outline:none;
+
+    border-color:#FFD400;
+
+    box-shadow:0 0 12px rgba(255,212,0,.45);
+
+}
+
+/* =======================================================
+   Yellow Button
+======================================================= */
+
+.yellowButton{
+
+    width:100%;
+
+    margin-top:18px;
+
+    padding:18px;
+
+    background:#111;
+
+    color:#FFD400;
+
+    border:none;
+
+    border-radius:14px;
+
+    font-size:20px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.yellowButton:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 0 18px rgba(255,212,0,.5);
+
+}
+
+.yellowButton:active{
+
+    transform:scale(.98);
+
+}
+
+/* =======================================================
+   Small Badge
+======================================================= */
+
+.badge{
+
+    display:inline-block;
+
+    padding:6px 12px;
+
+    margin:4px;
+
+    background:#FFD400;
+
+    color:#111;
+
+    border-radius:999px;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+}
+
+/* =======================================================
+   Rank Badge
+======================================================= */
+
+.rankBadge{
+
+    display:inline-block;
+
+    margin-top:10px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    background:linear-gradient(
+        90deg,
+        #111,
+        #2b2b2b
+    );
+
+    color:#FFD400;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+
+}
+
+/* =======================================================
+   Status Grid
+======================================================= */
+
+.statusGrid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+    margin-top:20px;
+
+}
+
+.statusItem{
+
+    background:#fffdf2;
+
+    border-left:6px solid #111;
+
+    padding:18px;
+
+}
+
+.statusItem h3{
+
+    font-size:14px;
+
+    color:#666;
+
+    margin-bottom:8px;
+
+}
+
+.statusItem p{
+
+    font-size:24px;
+
+    font-weight:900;
+
+}
+
+/* =======================================================
+   QR Reader
+======================================================= */
+
+#reader{
+
+    width:100%;
+
+    max-width:420px;
+
+    margin:30px auto;
+
+    padding:18px;
+
+    background:#fffdf2;
+
+    border-left:8px solid #111;
+
+    border-bottom:8px solid #111;
+
+}
+
+/* =======================================================
+   Admin
+======================================================= */
+
+.adminGrid{
+
+    display:grid;
+
+    gap:20px;
+
+}
+
+.adminCard{
+
+    background:#111;
+
+    color:#FFD400;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    transition:.25s;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+
+}
+
+.adminCard:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 16px 28px rgba(0,0,0,.3);
+
+}
+
+.adminCard h2{
+
+    margin-bottom:10px;
+
+    font-size:24px;
+
+}
+
+.adminCard p{
+
+    color:#eee;
+
+    font-size:15px;
+
+    line-height:1.8;
+
+}
+
+/* =======================================================
+   Reward Card
+======================================================= */
+
+.rewardCard{
+
+    background:rgba(255,248,215,.95);
+
+    border-left:8px solid #111;
+
+    border-bottom:8px solid #111;
+
+    padding:22px;
+
+    margin:20px 0;
+
+}
+
+.rewardTitle{
+
+    font-size:24px;
+
+    font-weight:900;
+
+}
+
+.rewardPoint{
+
+    margin-top:8px;
+
+    color:#c79200;
+
+    font-weight:bold;
+
+    font-size:18px;
+
+}
+
+/* =======================================================
+   Footer
+======================================================= */
+
+.footer{
+
+    margin-top:60px;
+
+    padding:20px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    color:#444;
+
+}
+
+/* =======================================================
+   Responsive
+======================================================= */
+
+@media (max-width:768px){
+
+.title{
+
+    font-size:42px;
+
+}
+
+.subTitle{
+
+    font-size:16px;
+
+    letter-spacing:3px;
+
+}
+
+.menuButton{
+
+    font-size:22px;
+
+    min-height:64px;
+
+}
+
+.adminButton{
+
+    font-size:22px;
+
+}
+
+.memberCard{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.memberIcon{
+
+    width:100px;
+
+    height:100px;
+
+}
+
+.memberName{
+
+    font-size:26px;
+
+}
+
+.statusGrid{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+/* =======================================================
+   Animation
+======================================================= */
+
+.fadeIn{
+
+    animation:fadeIn .5s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.slideIn{
+
+    animation:slideIn .4s ease;
+
+}
+
+@keyframes slideIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(-25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* =======================================================
+   Loading
+======================================================= */
+
+.loading{
+
+    text-align:center;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    padding:50px;
+
+    color:#111;
+
+}
+
+.loading::after{
+
+    content:"";
+
+    animation:dots 1.2s infinite;
+
+}
+
+@keyframes dots{
+
+    0%{
+
+        content:"";
+
+    }
+
+    33%{
+
+        content:".";
+
+    }
+
+    66%{
+
+        content:"..";
+
+    }
+
+    100%{
+
+        content:"...";
+
+    }
+
+}
+
+/* =======================================================
+   Message
+======================================================= */
+
+.success{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#d4ffd8;
+
+    border-left:6px solid #00aa33;
+
+    color:#005d19;
+
+    font-weight:bold;
+
+}
+
+.error{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#ffe0e0;
+
+    border-left:6px solid #d40000;
+
+    color:#900;
+
+    font-weight:bold;
+
+}
+
+/* =======================================================
+   Utility
+======================================================= */
+
+.textCenter{
+
+    text-align:center;
+
+}
+
+.mt10{
+
+    margin-top:10px;
+
+}
+
+.mt20{
+
+    margin-top:20px;
+
+}
+
+.mt30{
+
+    margin-top:30px;
+
+}
+
+.mt40{
+
+    margin-top:40px;
+
+}
+
+.mb20{
+
+    margin-bottom:20px;
+
+}
+
+.hidden{
+
+    display:none;
+
+}
+
+/* =======================================================
+   Scrollbar
+======================================================= */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#f2d64d;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#111;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#333;
+
+}
+
+/* =======================================================
+   Footer Version
+======================================================= */
+
+.version{
+
+    opacity:.7;
+
+    transition:.3s;
+
+}
+
+.version:hover{
+
+    opacity:1;
+
+}
+
+/* =======================================================
+   Finish
+======================================================= */
+
+body{
+
+    animation:fadeIn .5s ease;
+
+}

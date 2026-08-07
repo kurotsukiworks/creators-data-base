@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ポイント管理 | Creators Data Base</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="left-line"></div>
+
+<div class="left-line2"></div>
+
+</div>
+
+<div class="container fadeIn">
+
+<img src="images/logo.png" class="logo" alt="Creators Logo">
+
+<h1 class="title">
+
+POINT
+
+</h1>
+
+<p class="subTitle">
+
+POINT MANAGEMENT
+
+</p>
+
+<div class="card">
+
+<h2>
+
+👤 メンバー
+
+</h2>
+
+<select id="memberSelect" class="inputBox">
+
+<option>読み込み中...</option>
+
+</select>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+⭐ 現在ポイント
+
+</h2>
+
+<div id="currentPoint" class="pointDisplay">
+
+0 PT
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+➕ 増減ポイント
+
+</h2>
+
+<div class="pointButtons">
+
+<button class="pointBtn plus" data-value="10">+10</button>
+
+<button class="pointBtn plus" data-value="50">+50</button>
+
+<button class="pointBtn plus" data-value="100">+100</button>
+
+<button class="pointBtn minus" data-value="-10">-10</button>
+
+<button class="pointBtn minus" data-value="-50">-50</button>
+
+<button class="pointBtn minus" data-value="-100">-100</button>
+
+</div>
+
+<div class="selectedPoint">
+
+選択中：
+
+<span id="selectedPoint">
+
+0
+
+</span>
+
+PT
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+
+📝 理由
+
+</h2>
+
+<select id="reasonSelect" class="inputBox">
+
+<option value="">選択してください</option>
+
+<option>大会優勝</option>
+
+<option>大会準優勝</option>
+
+<option>ベスト4</option>
+
+<option>イベント参加</option>
+
+<option>景品交換</option>
+
+<option>その他</option>
+
+</select>
+
+<input
+
+type="text"
+
+id="otherReason"
+
+class="inputBox"
+
+placeholder="その他の理由"
+
+style="display:none;">
+
+</div>
+
+<div class="card">
+
+<button
+
+id="savePoint"
+
+class="yellowButton">
+
+保存
+
+</button>
+
+</div>
+
+<a href="admin.html" class="adminButton">
+
+⬅ 管理画面へ戻る
+
+</a>
+
+<div class="footer">
+
+Creators Data Base Ver.2
+
+</div>
+
+</div>
+
+<script src="js/point.js"></script>
+
+</body>
+
+</html>

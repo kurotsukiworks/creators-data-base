@@ -1,0 +1,47 @@
+[
+  {
+    "id": "T001",
+    "name": "Creator Cup Vol.1",
+    "date": "2026-08-01",
+    "type": "Creator Cup",
+    "active": true,
+
+"points": {
+  "champion":100,
+  "runnerUp":70,
+  "third":50,
+  "best4":30
+}
+  },
+  {
+    "id": "T002",
+    "name": "Creator Cup Vol.2",
+    "date": "2026-09-01",
+    "type": "Creator Cup",
+    "active": true,
+
+    "points": {
+      "champion": 100,
+      "runnerUp": 70,
+      "best4": 40,
+      "best8": 20,
+      "entry": 10
+    }
+  },
+  {
+    "id": "T003",
+    "name": "店舗大会",
+    "date": "",
+    "type": "Shop",
+
+    "active": true,
+
+    "points": {
+      "champion": 100,
+      "runnerUp": 70,
+      "best4": 40,
+      "best8": 20,
+      "entry": 10
+    }
+  }
+]

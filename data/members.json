@@ -1,0 +1,177 @@
+[
+  {
+    "id": "0001",
+    "token": "b9A4Qx7Lm2Nv8Pk5Hs1Zd6Wr3Ty0UcEf",
+
+    "name": "黒月",
+    "icon": "images/default.png",
+
+    "point": 735,
+
+    "selectedTitle": "TITLE003",
+
+    "titles": [
+      "TITLE001",
+      "TITLE002",
+      "TITLE003"
+    ],
+
+    "partner": "BEY001",
+
+    "record": {
+    "champion": 3,
+    "runnerUp": 3,
+    "third": 0,
+    "best4": 3
+    }
+  },
+
+  {
+    "id": "0002",
+    "token": "Qw8Nz1LpX5Ds9AvFm3Kr7TyUc2Bh6JeR",
+
+    "name": "テスト1",
+    "icon": "images/default.png",
+
+    "point": 100,
+
+    "selectedTitle": "TITLE001",
+
+    "titles": [
+      "TITLE001"
+    ],
+
+    "partner": "BEY002",
+
+    "record": {
+      "champion": 0,
+      "runnerUp": 0,
+      "third": 0,
+      "best4": 0
+    }
+  },
+
+  {
+    "id": "0003",
+    "token": "Xm7Qe4As9LpVt2HrBc6Ky1Df8UwNj5Po",
+
+    "name": "テスト2",
+    "icon": "images/default.png",
+
+    "point": 100,
+
+    "selectedTitle": "TITLE001",
+
+    "titles": [
+      "TITLE001"
+    ],
+
+    "partner": "BEY003",
+
+"record": {
+    "champion": 0,
+    "runnerUp": 0,
+    "third": 0,
+    "best4": 0
+}
+  },
+
+  {
+    "id": "0004",
+    "token": "Lp3Mv8Qx1ZaNs6TcFr5Dy2Hb9UkPw7Ae",
+
+    "name": "テスト3",
+    "icon": "images/default.png",
+
+    "point": 100,
+
+    "selectedTitle": "TITLE001",
+
+    "titles": [
+      "TITLE001"
+    ],
+
+    "partner": "BEY004",
+
+"record": {
+    "champion": 0,
+    "runnerUp": 0,
+    "third": 0,
+    "best4": 0
+}
+  },
+  {
+    "id": "0005",
+    "token": "Vr6Lp2Nx8QaTy1DsKm9Hw4BcZj7UfXeP",
+
+    "name": "テスト4",
+    "icon": "images/default.png",
+
+    "point": 100,
+
+    "selectedTitle": "TITLE001",
+
+    "titles": [
+      "TITLE001"
+    ],
+
+    "partner": "BEY005",
+
+"record": {
+    "champion": 0,
+    "runnerUp": 0,
+    "third": 0,
+    "best4": 0
+}
+  },
+
+  {
+    "id": "0006",
+    "token": "Nc4Qa8Ty2LpX7VrKs5DzHw1UfBm9JeAo",
+
+    "name": "テスト5",
+    "icon": "images/default.png",
+
+    "point": 100,
+
+    "selectedTitle": "TITLE001",
+
+    "titles": [
+      "TITLE001"
+    ],
+
+    "partner": "BEY001",
+
+"record": {
+    "champion": 0,
+    "runnerUp": 0,
+    "third": 0,
+    "best4": 0
+}
+  },
+
+  {
+    "id": "0007",
+    "token": "Ty9Mv3Qa7LpX1DsKr5ZwBc8UfNj2HeVo",
+
+    "name": "テスト6",
+    "icon": "images/default.png",
+
+    "point": 100,
+
+    "selectedTitle": "TITLE001",
+
+    "titles": [
+      "TITLE001"
+    ],
+
+    "partner": "BEY002",
+
+"record": {
+    "champion": 0,
+    "runnerUp": 0,
+    "third": 0,
+    "best4": 0
+}
+  }
+]

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "R001",
+    "name": "Creatorsステッカー",
+    "category": "ステッカー",
+    "point": 100,
+    "stock": 999,
+    "image": "images/rewards/sticker.png",
+    "description": "Creatorsオリジナルステッカー",
+    "active": true
+  },
+
+  {
+    "id": "R002",
+    "name": "Creators缶バッジ",
+    "category": "缶バッジ",
+    "point": 300,
+    "stock": 100,
+    "image": "images/rewards/badge.png",
+    "description": "Creatorsオリジナル缶バッジ",
+    "active": true
+  },
+
+  {
+    "id": "R003",
+    "name": "Creatorsアクリルキーホルダー",
+    "category": "キーホルダー",
+    "point": 500,
+    "stock": 50,
+    "image": "images/rewards/keyholder.png",
+    "description": "Creatorsオリジナルアクリルキーホルダー",
+    "active": true
+  },
+
+  {
+    "id": "R004",
+    "name": "Creators限定Tシャツ",
+    "category": "アパレル",
+    "point": 1500,
+    "stock": 20,
+    "image": "images/rewards/tshirt.png",
+    "description": "Creators限定Tシャツ",
+    "active": true
+  }
+]

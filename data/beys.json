@@ -1,0 +1,46 @@
+[
+  {
+    "id": "BEY001",
+    "name": "コバルトドレイク",
+    "series": "BX",
+    "type": "Attack",
+    "image": "images/beys/cobalt_drake.png",
+    "active": true
+  },
+
+  {
+    "id": "BEY002",
+    "name": "ドランソード",
+    "series": "BX",
+    "type": "Attack",
+    "image": "images/beys/dran_sword.png",
+    "active": true
+  },
+
+  {
+    "id": "BEY003",
+    "name": "ヘルズサイズ",
+    "series": "BX",
+    "type": "Balance",
+    "image": "images/beys/hells_scythe.png",
+    "active": true
+  },
+
+  {
+    "id": "BEY004",
+    "name": "ウィザードロッド",
+    "series": "BX",
+    "type": "Stamina",
+    "image": "images/beys/wizard_rod.png",
+    "active": true
+  },
+
+  {
+    "id": "BEY005",
+    "name": "シルバーウルフ",
+    "series": "BX",
+    "type": "Defense",
+    "image": "images/beys/silver_wolf.png",
+    "active": true
+  }
+]

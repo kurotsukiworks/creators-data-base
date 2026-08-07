@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>大会結果登録</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="left-line"></div>
+
+<div class="left-line2"></div>
+
+</div>
+
+<div class="container fadeIn">
+
+<img src="images/logo.png" class="logo">
+
+<h1 class="title">
+
+大会結果登録
+
+</h1>
+
+<p class="subTitle">
+
+Tournament Record
+
+</p>
+
+<!-- 大会 -->
+
+<div class="card">
+
+<h2>🏆 大会</h2>
+
+<select id="tournamentSelect">
+
+<option value="">大会を選択してください</option>
+
+</select>
+
+</div>
+
+<!-- 優勝 -->
+
+<div class="card">
+
+<h2>🥇 優勝</h2>
+
+<select id="championSelect">
+
+<option value="">選択してください</option>
+
+</select>
+
+</div>
+
+<!-- 準優勝 -->
+
+<div class="card">
+
+<h2>🥈 準優勝</h2>
+
+<select id="runnerUpSelect">
+
+<option value="">選択してください</option>
+
+</select>
+
+</div>
+
+<!-- 3位 -->
+
+<div class="card">
+
+<h2>🥉 3位</h2>
+
+<select id="thirdSelect">
+
+<option value="">選択してください</option>
+
+</select>
+
+</div>
+
+<!-- ベスト4 -->
+
+<div class="card">
+
+<h2>🏅 ベスト4</h2>
+
+<select id="best4Select">
+
+<option value="">選択してください</option>
+
+</select>
+
+</div>
+
+<!-- メモ -->
+
+<div class="card">
+
+<h2>📝 メモ</h2>
+
+<textarea
+
+id="memo"
+
+rows="4"
+
+placeholder="大会のメモ（任意）">
+
+</textarea>
+
+</div>
+
+<!-- ポイント -->
+
+<div class="card">
+
+<h2>⭐ 獲得ポイント</h2>
+
+<p>🥇 優勝：100PT</p>
+
+<p>🥈 準優勝：70PT</p>
+
+<p>🥉 3位：50PT</p>
+
+<p>🏅 ベスト4：30PT</p>
+
+</div>
+
+<button
+
+id="saveRecord"
+
+class="adminButton">
+
+大会結果を登録
+
+</button>
+
+<br><br>
+
+<a
+
+href="admin.html"
+
+class="adminButton">
+
+管理画面へ戻る
+
+</a>
+
+<div class="footer">
+
+Creators Data Base Ver.2
+
+</div>
+
+</div>
+
+<script src="js/record.js"></script>
+
+</body>
+
+</html>

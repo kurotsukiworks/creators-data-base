@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Creators Admin</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="background">
+
+<div class="left-line"></div>
+
+<div class="left-line2"></div>
+
+</div>
+
+<div class="container fadeIn">
+
+<img src="images/logo.png" class="logo">
+
+<h1 class="title">
+
+ADMIN
+
+</h1>
+
+<p class="subTitle">
+
+Creators Control Center
+
+</p>
+
+<!-- ログイン -->
+
+<div id="loginArea">
+
+<div class="card">
+
+<h2 class="textCenter">
+
+🔒 管理者ログイン
+
+</h2>
+
+<input
+type="password"
+id="pinInput"
+class="inputBox"
+placeholder="PINコード">
+
+<button
+id="loginButton"
+class="yellowButton">
+
+ログイン
+
+</button>
+
+<div id="loginMessage" class="mt20"></div>
+
+</div>
+
+</div>
+
+<!-- ダッシュボード -->
+
+<div id="adminArea" class="hidden">
+
+<div class="card">
+
+<h2>
+
+📊 管理ダッシュボード
+
+</h2>
+
+<p class="mt20">
+
+管理したい項目を選択してください。
+
+</p>
+
+</div>
+
+<div class="adminGrid">
+
+<a href="point.html" class="adminCard">
+
+<h2>
+
+⭐ ポイント管理
+
+</h2>
+
+<p>
+
+ポイントの加算・減算
+
+</p>
+
+</a>
+
+<a href="record.html" class="adminCard">
+
+<h2>
+
+🏆 戦績管理
+
+</h2>
+
+<p>
+
+大会結果の登録
+
+</p>
+
+</a>
+
+<a href="reward.html" class="adminCard">
+
+<h2>
+
+🎁 景品管理
+
+</h2>
+
+<p>
+
+景品・交換ポイント
+
+</p>
+
+</a>
+
+<a href="memberManage.html" class="adminCard">
+
+<h2>
+
+👥 メンバー管理
+
+</h2>
+
+<p>
+
+メンバー編集
+
+</p>
+
+</a>
+
+<a href="beyManage.html" class="adminCard">
+
+<h2>
+
+⚔ ベイ管理
+
+</h2>
+
+<p>
+
+所持ベイ編集
+
+</p>
+
+</a>
+
+<a href="titleManage.html" class="adminCard">
+
+<h2>
+
+🎖 称号管理
+
+</h2>
+
+<p>
+
+称号追加・編集
+
+</p>
+
+</a>
+
+<a href="system.html" class="adminCard">
+
+<h2>
+
+⚙ システム設定
+
+</h2>
+
+<p>
+
+PIN・QR・その他設定
+
+</p>
+
+</a>
+
+</div>
+
+<button
+id="logoutButton"
+class="yellowButton mt40">
+
+ログアウト
+
+</button>
+
+</div>
+
+<a href="index.html" class="adminButton mt40">
+
+🏠 ホームへ戻る
+
+</a>
+
+<div class="footer">
+
+Creators Data Base Ver.2
+
+</div>
+
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+
+</html>
