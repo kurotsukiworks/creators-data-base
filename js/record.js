@@ -1,14 +1,25 @@
-// =====================================
+// ======================================
 // Creators Data Base Ver.2.3
+// record.js
 // Tournament Record
-// Google Apps Script Version
+// Google Apps Script Edition
+// Rebuild Complete Version
 // Part1
-// =====================================
+// ======================================
 
+
+// ==============================
+// GAS URL
+// ==============================
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycby7UMjPGJ_gUILneRA4pcc8idt2LMJIezWCokacvk-9_b-NEO8KXYR2gdXqN3ww4dCh9g/exec";
 
+
+
+// ==============================
+// Data
+// ==============================
 
 let members = [];
 
@@ -16,24 +27,28 @@ let tournaments = [];
 
 
 
+// ==============================
+// Select ID
+// ==============================
+
 const selectIds = [
 
     "championSelect",
+
     "runnerUpSelect",
+
     "thirdSelect",
+
     "best4Select"
 
 ];
 
 
 
-// -------------------------------------
+
+// ==============================
 // 初期化
-// -------------------------------------
-
-initialize();
-
-
+// ==============================
 
 async function initialize(){
 
@@ -41,45 +56,52 @@ async function initialize(){
     try{
 
 
-        const [
+        const membersData =
 
-            membersData,
+        await fetch(
 
-            tournamentsData
+            API_URL +
 
+            "?action=members"
 
-        ] = await Promise.all([
+        )
 
+        .then(
 
-            fetch(
-                API_URL + "?action=members"
-            )
-            .then(res=>res.json()),
+            res => res.json()
 
-
-
-            fetch(
-                API_URL + "?action=tournaments"
-            )
-            .then(res=>res.json())
-
-
-        ]);
+        );
 
 
 
-        members =
-            membersData;
+
+        const tournamentsData =
+
+        await fetch(
+
+            API_URL +
+
+            "?action=tournaments"
+
+        )
+
+        .then(
+
+            res => res.json()
+
+        );
 
 
 
-        tournaments =
-            tournamentsData;
+
+        members = membersData;
+
+
+        tournaments = tournamentsData;
 
 
 
         loadTournamentList();
-
 
 
         loadMemberLists();
@@ -97,8 +119,9 @@ async function initialize(){
     catch(error){
 
 
-        console.error(error);
-
+        console.error(
+            error
+        );
 
 
         alert(
@@ -115,18 +138,26 @@ async function initialize(){
 
 
 
-// -------------------------------------
-// 大会一覧
-// -------------------------------------
+// ==============================
+// 大会一覧表示
+// ==============================
 
 function loadTournamentList(){
 
 
-
     const select =
-        document.getElementById(
-            "tournamentSelect"
-        );
+
+    document.getElementById(
+        "tournamentSelect"
+    );
+
+
+
+    if(!select){
+
+        return;
+
+    }
 
 
 
@@ -135,10 +166,11 @@ function loadTournamentList(){
     `
 
     <option value="">
-        大会を選択してください
+    大会を選択してください
     </option>
 
     `;
+
 
 
 
@@ -146,27 +178,32 @@ function loadTournamentList(){
 
 
         const option =
-            document.createElement(
-                "option"
-            );
+
+        document.createElement(
+            "option"
+        );
 
 
 
         option.value =
-            tournament["ID"];
+
+        tournament["ID"];
 
 
 
         option.textContent =
-            tournament["大会名"];
+
+        tournament["大会名"];
 
 
 
-        select.appendChild(option);
-
+        select.appendChild(
+            option
+        );
 
 
     });
+
 
 
 }
@@ -174,9 +211,10 @@ function loadTournamentList(){
 
 
 
-// -------------------------------------
-// メンバー一覧
-// -------------------------------------
+
+// ==============================
+// メンバー一覧表示
+// ==============================
 
 function loadMemberLists(){
 
@@ -186,19 +224,30 @@ function loadMemberLists(){
 
 
         const select =
-            document.getElementById(id);
+
+        document.getElementById(id);
+
+
+
+        if(!select){
+
+            return;
+
+        }
 
 
 
         select.innerHTML =
 
+
         `
 
         <option value="">
-            選択してください
+        選択してください
         </option>
 
         `;
+
 
 
 
@@ -206,23 +255,28 @@ function loadMemberLists(){
 
 
             const option =
-                document.createElement(
-                    "option"
-                );
+
+            document.createElement(
+                "option"
+            );
 
 
 
             option.value =
-                member["ID"];
+
+            member["ID"];
 
 
 
             option.textContent =
-                member["名前"];
+
+            member["名前"];
 
 
 
-            select.appendChild(option);
+            select.appendChild(
+                option
+            );
 
 
 
@@ -234,33 +288,36 @@ function loadMemberLists(){
 
 
 
-    selectIds.forEach(id=>{
-
-
-        document
-
-        .getElementById(id)
-
-        .addEventListener(
-
-            "change",
-
-            updateSelects
-
-        );
-
-
-    });
-
-
 }
 
 
 
 
-// -------------------------------------
+// ==============================
+// 起動
+// ==============================
+
+initialize();
+
+
+
+// ======================================
+// End Part1
+// ======================================
+
+
+// ======================================
+// Creators Data Base Ver.2.3
+// record.js
+// Tournament Record
+// Part2
+// ======================================
+
+
+
+// ==============================
 // 重複選択防止
-// -------------------------------------
+// ==============================
 
 function updateSelects(){
 
@@ -273,20 +330,26 @@ function updateSelects(){
     selectIds.forEach(id=>{
 
 
-        const value =
+        const select =
 
-            document
-
-            .getElementById(id)
-
-            .value;
+        document.getElementById(id);
 
 
 
-        if(value){
+        if(!select){
+
+            return;
+
+        }
 
 
-            selected.push(value);
+
+        if(select.value){
+
+
+            selected.push(
+                select.value
+            );
 
 
         }
@@ -297,29 +360,38 @@ function updateSelects(){
 
 
 
+
     selectIds.forEach(id=>{
 
 
         const select =
 
-            document
+        document.getElementById(id);
 
-            .getElementById(id);
+
+
+        if(!select){
+
+            return;
+
+        }
 
 
 
         const current =
-            select.value;
+
+        select.value;
 
 
 
 
         select.innerHTML =
 
+
         `
 
         <option value="">
-            選択してください
+        選択してください
         </option>
 
         `;
@@ -330,53 +402,64 @@ function updateSelects(){
         members.forEach(member=>{
 
 
+            const memberId =
+
+            String(
+                member["ID"]
+            );
+
+
+
+            // 現在選択中の人は残す
+
             if(
 
-                !selected.includes(
-                    member["ID"]
-                )
+                !selected.includes(memberId)
 
                 ||
 
-                member["ID"] === current
+                memberId === String(current)
 
             ){
 
 
 
                 const option =
-                    document.createElement(
-                        "option"
-                    );
+
+                document.createElement(
+                    "option"
+                );
 
 
 
                 option.value =
-                    member["ID"];
+
+                memberId;
 
 
 
                 option.textContent =
-                    member["名前"];
+
+                member["名前"];
+
 
 
 
                 if(
 
-                    member["ID"] === current
+                    memberId === String(current)
 
                 ){
 
-
-                    option.selected =
-                        true;
-
+                    option.selected = true;
 
                 }
 
 
 
-                select.appendChild(option);
+                select.appendChild(
+                    option
+                );
 
 
 
@@ -393,321 +476,44 @@ function updateSelects(){
 
 }
 
-// -------------------------------------
-// 登録
-// -------------------------------------
 
 
-document
+// ==============================
+// イベント登録
+// ==============================
 
-.getElementById("saveRecord")
-
-.addEventListener(
-
-    "click",
-
-    saveRecord
-
-);
-
-
-
-
-
-async function saveRecord(){
-
-
-
-    const tournamentId =
-
-        document
-
-        .getElementById(
-            "tournamentSelect"
-        )
-
-        .value;
-
-
-
-    const champion =
-
-        document
-
-        .getElementById(
-            "championSelect"
-        )
-
-        .value;
-
-
-
-    const runnerUp =
-
-        document
-
-        .getElementById(
-            "runnerUpSelect"
-        )
-
-        .value;
-
-
-
-    const third =
-
-        document
-
-        .getElementById(
-            "thirdSelect"
-        )
-
-        .value;
-
-
-
-    const best4 =
-
-        document
-
-        .getElementById(
-            "best4Select"
-        )
-
-        .value;
-
-
-
-    const memo =
-
-        document
-
-        .getElementById(
-            "memo"
-        )
-
-        .value;
-
-
-
-
-    if(!tournamentId){
-
-
-        alert(
-            "大会を選択してください。"
-        );
-
-
-        return;
-
-
-    }
-
-
-
-
-    const data = {
-
-
-        action:
-            "saveTournament",
-
-
-
-        大会ID:
-            tournamentId,
-
-
-
-        優勝:
-            champion || "",
-
-
-
-        準優勝:
-            runnerUp || "",
-
-
-
-        "3位":
-            third || "",
-
-
-
-        ベスト4:
-            best4 || "",
-
-
-
-        メモ:
-            memo || ""
-
-
-    };
-
-
-
-
-
-    try{
-
-
-        const response =
-
-            await fetch(
-
-                API_URL,
-
-                {
-
-
-                    method:"POST",
-
-
-                    headers:{
-
-
-                        "Content-Type":
-                        "application/json"
-
-
-                    },
-
-
-                    body:
-
-                    JSON.stringify(data)
-
-
-                }
-
-
-            );
-
-
-
-
-        const result =
-
-            await response.json();
-
-
-
-
-
-
-        if(!result.success){
-
-
-            alert(
-
-                "登録に失敗しました。\n"
-
-                +
-
-                result.message
-
-            );
-
-
-            return;
-
-
-        }
-
-
-
-
-
-        alert(
-
-`大会結果を登録しました！
-
-ポイント付与
-戦績更新
-称号チェック
-
-が完了しました。`
-
-        );
-
-
-
-
-        resetForm();
-
-
-
-    }
-
-
-
-    catch(error){
-
-
-        console.error(error);
-
-
-
-        alert(
-
-            "通信エラーが発生しました。"
-
-        );
-
-
-    }
-
-
-}
-
-
-
-
-
-
-// -------------------------------------
-// 入力リセット
-// -------------------------------------
-
-function resetForm(){
-
-
-
-    document
-
-    .getElementById(
-        "tournamentSelect"
-    )
-
-    .value = "";
-
+function setSelectEvents(){
 
 
 
     selectIds.forEach(id=>{
 
 
-        document
+        const select =
 
-        .getElementById(id)
+        document.getElementById(id);
 
-        .value = "";
+
+
+        if(!select){
+
+            return;
+
+        }
+
+
+
+        select.addEventListener(
+
+            "change",
+
+            updateSelects
+
+        );
+
 
 
     });
-
-
-
-
-    document
-
-    .getElementById(
-        "memo"
-    )
-
-    .value = "";
 
 
 
@@ -715,11 +521,95 @@ function resetForm(){
 
 
 
+// ==============================
+// 選択チェック
+// ==============================
 
-// -------------------------------------
-// End
-// -------------------------------------
+function validateRecord(){
 
-console.log(
-    "Creators Data Base Tournament Record Ready"
-);
+
+
+    const values = [];
+
+
+
+    selectIds.forEach(id=>{
+
+
+        const select =
+
+        document.getElementById(id);
+
+
+
+        if(select && select.value){
+
+
+            values.push(
+                select.value
+            );
+
+
+        }
+
+
+    });
+
+
+
+    const unique =
+
+    new Set(values);
+
+
+
+    if(
+
+        values.length
+
+        !==
+
+        unique.size
+
+    ){
+
+
+        alert(
+            "同じメンバーを複数順位に登録できません。"
+        );
+
+
+        return false;
+
+
+    }
+
+
+
+    return true;
+
+
+
+}
+
+
+
+// ==============================
+// Part2 起動
+// ==============================
+
+setTimeout(()=>{
+
+
+    setSelectEvents();
+
+
+},500);
+
+
+
+// ======================================
+// End Part2
+// ======================================
+
+
