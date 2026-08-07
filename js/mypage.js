@@ -260,6 +260,30 @@ function loadTitles(){
     .filter(title=>{
 
 
+const result = await fetch(API_URL,{
+
+    method:"POST",
+
+    headers:{
+        "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+
+        action:"updateMember",
+
+        ID:member["ID"],
+
+        選択称号:selectedTitle,
+
+        相棒ベイ:partner
+
+    })
+
+});
+
+
+
         return (
 
             title["公開"] === true
