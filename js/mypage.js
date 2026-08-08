@@ -2,8 +2,7 @@
 // Creators Data Base Ver.2
 // mypage.js
 // Google Apps Script Edition
-// Rebuild Complete Version
-// Part 1
+// Title Unlock Edition
 // ======================================
 
 
@@ -25,6 +24,8 @@ let titles = [];
 
 let beys = [];
 
+let memberTitles = [];
+
 
 // ==============================
 // Token取得
@@ -35,10 +36,8 @@ new URLSearchParams(
     window.location.search
 );
 
-
 const token =
 params.get("token");
-
 
 
 if(!token){
@@ -53,16 +52,17 @@ if(!token){
 }
 
 
-
 // ==============================
 // 初期読み込み
 // ==============================
 
 async function initializePage(){
 
-
     try{
 
+        // ------------------------------
+        // Members
+        // ------------------------------
 
         const membersData =
         await fetch(
@@ -70,10 +70,13 @@ async function initializePage(){
             "?action=members"
         )
         .then(
-            res=>res.json()
+            res => res.json()
         );
 
 
+        // ------------------------------
+        // Titles
+        // ------------------------------
 
         const titlesData =
         await fetch(
@@ -81,10 +84,13 @@ async function initializePage(){
             "?action=titles"
         )
         .then(
-            res=>res.json()
+            res => res.json()
         );
 
 
+        // ------------------------------
+        // Beys
+        // ------------------------------
 
         const beysData =
         await fetch(
@@ -92,19 +98,41 @@ async function initializePage(){
             "?action=beys"
         )
         .then(
-            res=>res.json()
+            res => res.json()
         );
 
 
+        // ------------------------------
+        // MemberTitles
+        // ------------------------------
+
+        const memberTitlesData =
+        await fetch(
+            API_URL +
+            "?action=membertitles"
+        )
+        .then(
+            res => res.json()
+        );
+
+
+        // ------------------------------
+        // Dataセット
+        // ------------------------------
 
         titles =
         titlesData;
 
-
         beys =
         beysData;
 
+        memberTitles =
+        memberTitlesData;
 
+
+        // ------------------------------
+        // メンバー検索
+        // ------------------------------
 
         member =
         membersData.find(
@@ -118,50 +146,43 @@ async function initializePage(){
         );
 
 
-
         if(!member){
-
 
             alert(
                 "メンバーが見つかりません。"
             );
 
-
             location.href =
             "index.html";
-
 
             return;
 
         }
 
 
+        // ------------------------------
+        // ページ表示
+        // ------------------------------
 
         loadProfile();
 
 
-
     }
-
 
     catch(error){
 
-
         console.error(
+            "読み込みエラー",
             error
         );
-
 
         alert(
             "データの読み込みに失敗しました。"
         );
 
-
     }
 
-
 }
-
 
 
 // ==============================
@@ -170,13 +191,14 @@ async function initializePage(){
 
 function loadProfile(){
 
-
+    // ------------------------------
+    // 名前
+    // ------------------------------
 
     const name =
     document.getElementById(
         "memberName"
     );
-
 
     if(name){
 
@@ -186,29 +208,32 @@ function loadProfile(){
     }
 
 
+    // ------------------------------
+    // ID
+    // ------------------------------
 
     const id =
     document.getElementById(
         "memberId"
     );
 
-
     if(id){
 
         id.textContent =
-        "ID : "
-        +
+        "ID : " +
         member["ID"];
 
     }
 
 
+    // ------------------------------
+    // ポイント
+    // ------------------------------
 
     const point =
     document.getElementById(
         "memberPoint"
     );
-
 
     if(point){
 
@@ -220,12 +245,14 @@ function loadProfile(){
     }
 
 
+    // ------------------------------
+    // アイコン
+    // ------------------------------
 
     const icon =
     document.getElementById(
         "memberIcon"
     );
-
 
     if(icon){
 
@@ -237,13 +264,25 @@ function loadProfile(){
     }
 
 
+    // ------------------------------
+    // 戦績
+    // ------------------------------
 
     loadRecord();
 
+
+    // ------------------------------
+    // 獲得称号
+    // ------------------------------
+
     loadTitles();
 
-    loadPartner();
 
+    // ------------------------------
+    // 相棒ベイ
+    // ------------------------------
+
+    loadPartner();
 
 }
 
@@ -253,7 +292,6 @@ function loadProfile(){
 // ======================================
 
 function loadRecord(){
-
 
     const recordList = [
 
@@ -280,9 +318,7 @@ function loadRecord(){
     ];
 
 
-
-    recordList.forEach(item=>{
-
+    recordList.forEach(item => {
 
         const element =
         document.getElementById(
@@ -292,27 +328,21 @@ function loadRecord(){
 
         if(element){
 
-
             element.textContent =
             member[item.key] || 0;
 
-
         }
 
-
     });
-
 
 }
 
 
-
 // ======================================
-// 称号一覧
+// 獲得済み称号一覧
 // ======================================
 
 function loadTitles(){
-
 
     const select =
     document.getElementById(
@@ -327,13 +357,43 @@ function loadTitles(){
     }
 
 
-
     select.innerHTML = "";
 
 
+    // ------------------------------
+    // 獲得しているTitleIDだけ取得
+    // ------------------------------
 
-    titles.forEach(title=>{
+    const ownedTitleIds =
 
+    memberTitles
+
+    .filter(
+
+        item =>
+
+        String(item["MemberID"])
+        ===
+        String(member["ID"])
+
+    )
+
+    .map(
+
+        item =>
+        String(item["TitleID"])
+
+    );
+
+
+    // ------------------------------
+    // 獲得称号を表示
+    // ------------------------------
+
+    titles.forEach(title => {
+
+
+        // 公開されている称号のみ
 
         const isPublic =
 
@@ -347,7 +407,6 @@ function loadTitles(){
         "true";
 
 
-
         if(!isPublic){
 
             return;
@@ -355,6 +414,26 @@ function loadTitles(){
         }
 
 
+        // --------------------------
+        // このメンバーが持っているか
+        // --------------------------
+
+        const titleId =
+        String(title["ID"]);
+
+
+        if(
+            !ownedTitleIds.includes(titleId)
+        ){
+
+            return;
+
+        }
+
+
+        // --------------------------
+        // option作成
+        // --------------------------
 
         const option =
         document.createElement(
@@ -362,24 +441,21 @@ function loadTitles(){
         );
 
 
-
         option.value =
         title["ID"];
-
 
 
         option.textContent =
         title["名前"];
 
 
+        // 現在選択中の称号
 
         if(
 
-            title["ID"]
-
+            String(title["ID"])
             ===
-
-            member["選択称号"]
+            String(member["選択称号"])
 
         ){
 
@@ -387,7 +463,6 @@ function loadTitles(){
             true;
 
         }
-
 
 
         select.appendChild(
@@ -398,8 +473,29 @@ function loadTitles(){
     });
 
 
-}
+    // ------------------------------
+    // 称号が1つもない場合
+    // ------------------------------
 
+    if(select.options.length === 0){
+
+        const option =
+        document.createElement(
+            "option"
+        );
+
+        option.value = "";
+
+        option.textContent =
+        "獲得称号なし";
+
+        select.appendChild(
+            option
+        );
+
+    }
+
+}
 
 
 // ======================================
@@ -407,7 +503,6 @@ function loadTitles(){
 // ======================================
 
 function loadPartner(){
-
 
     const select =
     document.getElementById(
@@ -422,12 +517,10 @@ function loadPartner(){
     }
 
 
-
     select.innerHTML = "";
 
 
-
-    beys.forEach(bey=>{
+    beys.forEach(bey => {
 
 
         const isPublic =
@@ -442,13 +535,11 @@ function loadPartner(){
         "true";
 
 
-
         if(!isPublic){
 
             return;
 
         }
-
 
 
         const option =
@@ -457,10 +548,8 @@ function loadPartner(){
         );
 
 
-
         option.value =
         bey["ID"];
-
 
 
         option.textContent =
@@ -468,14 +557,11 @@ function loadPartner(){
         `${bey["名前"]} (${bey["タイプ"]})`;
 
 
-
         if(
 
-            bey["ID"]
-
+            String(bey["ID"])
             ===
-
-            member["相棒ベイ"]
+            String(member["相棒ベイ"])
 
         ){
 
@@ -485,7 +571,6 @@ function loadPartner(){
         }
 
 
-
         select.appendChild(
             option
         );
@@ -493,8 +578,8 @@ function loadPartner(){
 
     });
 
-
 }
+
 
 // ======================================
 // プロフィール保存
@@ -502,9 +587,7 @@ function loadPartner(){
 
 async function saveProfile(){
 
-
     try{
-
 
         const titleSelect =
         document.getElementById(
@@ -518,63 +601,43 @@ async function saveProfile(){
         );
 
 
-
         const selectedTitle =
 
         titleSelect
-
         ?
-
         titleSelect.value
-
         :
-
         "";
-
 
 
         const selectedPartner =
 
         partnerSelect
-
         ?
-
         partnerSelect.value
-
         :
-
         "";
 
 
+        // ------------------------------
+        // 送信データ
+        // ------------------------------
 
         const sendData = {
 
-
             action:
-
             "updatemember",
 
-
-
             ID:
-
             member["ID"],
 
-
-
             選択称号:
-
             selectedTitle,
 
-
-
             相棒ベイ:
-
             selectedPartner
 
-
         };
-
 
 
         console.log(
@@ -583,6 +646,9 @@ async function saveProfile(){
         );
 
 
+        // ------------------------------
+        // GASへ送信
+        // ------------------------------
 
         const response =
 
@@ -594,24 +660,18 @@ async function saveProfile(){
 
                 method:"POST",
 
-
                 body:
-
                 JSON.stringify(
                     sendData
                 )
-
 
             }
 
         );
 
 
-
         const result =
-
         await response.json();
-
 
 
         console.log(
@@ -620,9 +680,11 @@ async function saveProfile(){
         );
 
 
+        // ------------------------------
+        // 保存失敗
+        // ------------------------------
 
         if(!result.success){
-
 
             alert(
 
@@ -634,14 +696,14 @@ async function saveProfile(){
 
             );
 
-
             return;
 
         }
 
 
-
+        // ------------------------------
         // 表示中データ更新
+        // ------------------------------
 
         member["選択称号"] =
         selectedTitle;
@@ -651,7 +713,6 @@ async function saveProfile(){
         selectedPartner;
 
 
-
         alert(
             "保存しました！"
         );
@@ -659,9 +720,7 @@ async function saveProfile(){
 
     }
 
-
     catch(error){
-
 
         console.error(
             "保存エラー",
@@ -673,12 +732,9 @@ async function saveProfile(){
             "通信エラーが発生しました。"
         );
 
-
     }
 
-
 }
-
 
 
 // ======================================
@@ -686,27 +742,19 @@ async function saveProfile(){
 // ======================================
 
 const saveButton =
-
 document.getElementById(
     "saveButton"
 );
 
 
-
 if(saveButton){
 
-
     saveButton.addEventListener(
-
         "click",
-
         saveProfile
-
     );
 
-
 }
-
 
 
 // ======================================
