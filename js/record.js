@@ -2,9 +2,8 @@
 // Creators Data Base Ver.2.3
 // record.js
 // Tournament Record
-// Google Apps Script Edition
-// Rebuild Complete Version
-// Part1
+// Team Battle 3 Members Edition
+// Part 2
 // ======================================
 
 
@@ -16,7 +15,6 @@ const API_URL =
 "https://script.google.com/macros/s/AKfycby7UMjPGJ_gUILneRA4pcc8idt2LMJIezWCokacvk-9_b-NEO8KXYR2gdXqN3ww4dCh9g/exec";
 
 
-
 // ==============================
 // Data
 // ==============================
@@ -26,24 +24,62 @@ let members = [];
 let tournaments = [];
 
 
+// ==============================
+// 順位ごとのSelect
+// ==============================
+
+const rankGroups = {
+
+    champion: [
+        "championSelect1",
+        "championSelect2",
+        "championSelect3"
+    ],
+
+    runnerUp: [
+        "runnerUpSelect1",
+        "runnerUpSelect2",
+        "runnerUpSelect3"
+    ],
+
+    third: [
+        "thirdSelect1",
+        "thirdSelect2",
+        "thirdSelect3"
+    ],
+
+    best4: [
+        "best4Select1",
+        "best4Select2",
+        "best4Select3"
+    ]
+
+};
+
 
 // ==============================
-// Select ID
+// 全Select
 // ==============================
 
 const selectIds = [
 
-    "championSelect",
+    "championSelect1",
+    "championSelect2",
+    "championSelect3",
 
-    "runnerUpSelect",
+    "runnerUpSelect1",
+    "runnerUpSelect2",
+    "runnerUpSelect3",
 
-    "thirdSelect",
+    "thirdSelect1",
+    "thirdSelect2",
+    "thirdSelect3",
 
-    "best4Select"
+    "best4Select1",
+    "best4Select2",
+    "best4Select3"
 
 ];
-
-
 
 
 // ==============================
@@ -52,74 +88,93 @@ const selectIds = [
 
 async function initialize(){
 
-
     try{
+
+        // --------------------------
+        // メンバー取得
+        // --------------------------
+
+        const membersResponse =
+        await fetch(
+            API_URL +
+            "?action=members"
+        );
+
+
+        if(!membersResponse.ok){
+
+            throw new Error(
+                "Members API Error"
+            );
+
+        }
 
 
         const membersData =
+        await membersResponse.json();
 
+
+        // --------------------------
+        // 大会取得
+        // --------------------------
+
+        const tournamentsResponse =
         await fetch(
-
             API_URL +
-
-            "?action=members"
-
-        )
-
-        .then(
-
-            res => res.json()
-
+            "?action=tournaments"
         );
 
 
+        if(!tournamentsResponse.ok){
+
+            throw new Error(
+                "Tournaments API Error"
+            );
+
+        }
 
 
         const tournamentsData =
-
-        await fetch(
-
-            API_URL +
-
-            "?action=tournaments"
-
-        )
-
-        .then(
-
-            res => res.json()
-
-        );
+        await tournamentsResponse.json();
 
 
+        // --------------------------
+        // データ保存
+        // --------------------------
+
+        members =
+        Array.isArray(membersData)
+        ? membersData
+        : [];
 
 
-        members = membersData;
+        tournaments =
+        Array.isArray(tournamentsData)
+        ? tournamentsData
+        : [];
 
 
-        tournaments = tournamentsData;
-
-
+        // --------------------------
+        // 画面表示
+        // --------------------------
 
         loadTournamentList();
 
-
         loadMemberLists();
 
+        setSelectEvents();
 
 
         console.log(
             "Tournament Record Ready"
         );
 
-
     }
-
 
     catch(error){
 
-
         console.error(
+            "Initialize Error:",
             error
         );
 
@@ -128,29 +183,21 @@ async function initialize(){
             "データの読み込みに失敗しました。"
         );
 
-
     }
-
 
 }
 
 
-
-
-
 // ==============================
-// 大会一覧表示
+// 大会一覧
 // ==============================
 
 function loadTournamentList(){
 
-
     const select =
-
     document.getElementById(
         "tournamentSelect"
     );
-
 
 
     if(!select){
@@ -160,137 +207,479 @@ function loadTournamentList(){
     }
 
 
-
-    select.innerHTML =
-
-    `
-
-    <option value="">
-    大会を選択してください
-    </option>
-
-    `;
+    select.innerHTML = "";
 
 
+    const defaultOption =
+    document.createElement(
+        "option"
+    );
 
 
-    tournaments.forEach(tournament=>{
+    defaultOption.value = "";
 
 
-        const option =
-
-        document.createElement(
-            "option"
-        );
+    defaultOption.textContent =
+    "大会を選択してください";
 
 
-
-        option.value =
-
-        tournament["ID"];
-
+    select.appendChild(
+        defaultOption
+    );
 
 
-        option.textContent =
-
-        tournament["大会名"];
-
-
-
-        select.appendChild(
-            option
-        );
-
-
-    });
-
-
-
-}
-
-
-
-
-
-// ==============================
-// メンバー一覧表示
-// ==============================
-
-function loadMemberLists(){
-
-
-
-    selectIds.forEach(id=>{
-
-
-        const select =
-
-        document.getElementById(id);
-
-
-
-        if(!select){
-
-            return;
-
-        }
-
-
-
-        select.innerHTML =
-
-
-        `
-
-        <option value="">
-        選択してください
-        </option>
-
-        `;
-
-
-
-
-        members.forEach(member=>{
-
+    tournaments.forEach(
+        tournament => {
 
             const option =
-
             document.createElement(
                 "option"
             );
 
 
-
             option.value =
-
-            member["ID"];
-
+            String(
+                tournament["ID"]
+            );
 
 
             option.textContent =
-
-            member["名前"];
-
+            tournament["大会名"] || "";
 
 
             select.appendChild(
                 option
             );
 
-
-
-        });
-
-
-
-    });
-
-
+        }
+    );
 
 }
 
 
+// ==============================
+// メンバー一覧
+// ==============================
+
+function loadMemberLists(){
+
+    selectIds.forEach(
+        id => {
+
+            const select =
+            document.getElementById(id);
+
+
+            if(!select){
+
+                return;
+
+            }
+
+
+            select.innerHTML = "";
+
+
+            const defaultOption =
+            document.createElement(
+                "option"
+            );
+
+
+            defaultOption.value =
+            "";
+
+
+            defaultOption.textContent =
+            "選択してください";
+
+
+            select.appendChild(
+                defaultOption
+            );
+
+
+            members.forEach(
+                member => {
+
+                    const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                    /*
+                     * IDを必ず文字列として扱う
+                     * 
+                     * ID0001などの先頭0が
+                     * 消えないようにする
+                     */
+
+                    option.value =
+                    String(
+                        member["ID"]
+                    );
+
+
+                    option.textContent =
+                    member["名前"] || "";
+
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+// ==============================
+// Selectイベント
+// ==============================
+
+function setSelectEvents(){
+
+    selectIds.forEach(
+        id => {
+
+            const select =
+            document.getElementById(id);
+
+
+            if(!select){
+
+                return;
+
+            }
+
+
+            select.addEventListener(
+                "change",
+                updateSelects
+            );
+
+        }
+    );
+
+}
+
+
+// ==============================
+// 選択済みメンバー取得
+// ==============================
+
+function getSelectedMembers(){
+
+    const selected = [];
+
+
+    selectIds.forEach(
+        id => {
+
+            const select =
+            document.getElementById(id);
+
+
+            if(!select){
+
+                return;
+
+            }
+
+
+            const value =
+            String(
+                select.value || ""
+            );
+
+
+            if(value){
+
+                selected.push(value);
+
+            }
+
+        }
+    );
+
+
+    return selected;
+
+}
+
+
+// ==============================
+// 重複選択防止
+// ==============================
+
+function updateSelects(){
+
+    /*
+     * 現在選択されている値を
+     * いったん全部保存
+     */
+
+    const currentValues = {};
+
+
+    selectIds.forEach(
+        id => {
+
+            const select =
+            document.getElementById(id);
+
+
+            if(select){
+
+                currentValues[id] =
+                String(
+                    select.value || ""
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+     * 全体で選択済みのID
+     */
+
+    const selectedValues =
+    Object.values(
+        currentValues
+    ).filter(
+        value => value !== ""
+    );
+
+
+    /*
+     * 各プルダウンを再構築
+     */
+
+    selectIds.forEach(
+        id => {
+
+            const select =
+            document.getElementById(id);
+
+
+            if(!select){
+
+                return;
+
+            }
+
+
+            const current =
+            currentValues[id];
+
+
+            select.innerHTML = "";
+
+
+            const defaultOption =
+            document.createElement(
+                "option"
+            );
+
+
+            defaultOption.value =
+            "";
+
+
+            defaultOption.textContent =
+            "選択してください";
+
+
+            select.appendChild(
+                defaultOption
+            );
+
+
+            members.forEach(
+                member => {
+
+                    const memberId =
+                    String(
+                        member["ID"]
+                    );
+
+
+                    /*
+                     * 他のプルダウンで
+                     * 選ばれている人は除外
+                     *
+                     * ただし自分自身の現在値は残す
+                     */
+
+                    const alreadySelected =
+                    selectedValues.includes(
+                        memberId
+                    );
+
+
+                    if(
+                        alreadySelected
+                        &&
+                        memberId !== current
+                    ){
+
+                        return;
+
+                    }
+
+
+                    const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                    option.value =
+                    memberId;
+
+
+                    option.textContent =
+                    member["名前"] || "";
+
+
+                    if(
+                        memberId === current
+                    ){
+
+                        option.selected =
+                        true;
+
+                    }
+
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+// ==============================
+// 選択値取得
+// ==============================
+
+function getRankValues(
+    ids
+){
+
+    return ids
+        .map(
+            id => {
+
+                const select =
+                document.getElementById(id);
+
+
+                if(!select){
+
+                    return "";
+
+                }
+
+
+                return String(
+                    select.value || ""
+                );
+
+            }
+        )
+        .filter(
+            value => value !== ""
+        );
+
+}
+
+
+// ==============================
+// 重複チェック
+// ==============================
+
+function validateRecord(){
+
+    const values =
+    getSelectedMembers();
+
+
+    /*
+     * 同じ人が複数順位に
+     * 入っていないか確認
+     */
+
+    const unique =
+    new Set(values);
+
+
+    if(
+        values.length
+        !==
+        unique.size
+    ){
+
+        alert(
+            "同じメンバーを複数順位に登録できません。"
+        );
+
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+// ==============================
+// 順位データ作成
+// ==============================
+
+function createRankData(){
+
+    return {
+
+        優勝:
+        getRankValues(
+            rankGroups.champion
+        ),
+
+        準優勝:
+        getRankValues(
+            rankGroups.runnerUp
+        ),
+
+        "3位":
+        getRankValues(
+            rankGroups.third
+        ),
+
+        ベスト4:
+        getRankValues(
+            rankGroups.best4
+        )
+
+    };
+
+}
 
 
 // ==============================
@@ -300,707 +689,6 @@ function loadMemberLists(){
 initialize();
 
 
-
-// ======================================
-// End Part1
-// ======================================
-
-
-// ======================================
-// Creators Data Base Ver.2.3
-// record.js
-// Tournament Record
-// Part2
-// ======================================
-
-
-
-// ==============================
-// 重複選択防止
-// ==============================
-
-function updateSelects(){
-
-
-
-    const selected = [];
-
-
-
-    selectIds.forEach(id=>{
-
-
-        const select =
-
-        document.getElementById(id);
-
-
-
-        if(!select){
-
-            return;
-
-        }
-
-
-
-        if(select.value){
-
-
-            selected.push(
-                select.value
-            );
-
-
-        }
-
-
-    });
-
-
-
-
-
-    selectIds.forEach(id=>{
-
-
-        const select =
-
-        document.getElementById(id);
-
-
-
-        if(!select){
-
-            return;
-
-        }
-
-
-
-        const current =
-
-        select.value;
-
-
-
-
-        select.innerHTML =
-
-
-        `
-
-        <option value="">
-        選択してください
-        </option>
-
-        `;
-
-
-
-
-        members.forEach(member=>{
-
-
-            const memberId =
-
-            String(
-                member["ID"]
-            );
-
-
-
-            // 現在選択中の人は残す
-
-            if(
-
-                !selected.includes(memberId)
-
-                ||
-
-                memberId === String(current)
-
-            ){
-
-
-
-                const option =
-
-                document.createElement(
-                    "option"
-                );
-
-
-
-                option.value =
-
-                memberId;
-
-
-
-                option.textContent =
-
-                member["名前"];
-
-
-
-
-                if(
-
-                    memberId === String(current)
-
-                ){
-
-                    option.selected = true;
-
-                }
-
-
-
-                select.appendChild(
-                    option
-                );
-
-
-
-            }
-
-
-        });
-
-
-
-    });
-
-
-
-}
-
-
-
-// ==============================
-// イベント登録
-// ==============================
-
-function setSelectEvents(){
-
-
-
-    selectIds.forEach(id=>{
-
-
-        const select =
-
-        document.getElementById(id);
-
-
-
-        if(!select){
-
-            return;
-
-        }
-
-
-
-        select.addEventListener(
-
-            "change",
-
-            updateSelects
-
-        );
-
-
-
-    });
-
-
-
-}
-
-
-
-// ==============================
-// 選択チェック
-// ==============================
-
-function validateRecord(){
-
-
-
-    const values = [];
-
-
-
-    selectIds.forEach(id=>{
-
-
-        const select =
-
-        document.getElementById(id);
-
-
-
-        if(select && select.value){
-
-
-            values.push(
-                select.value
-            );
-
-
-        }
-
-
-    });
-
-
-
-    const unique =
-
-    new Set(values);
-
-
-
-    if(
-
-        values.length
-
-        !==
-
-        unique.size
-
-    ){
-
-
-        alert(
-            "同じメンバーを複数順位に登録できません。"
-        );
-
-
-        return false;
-
-
-    }
-
-
-
-    return true;
-
-
-
-}
-
-
-
-// ==============================
-// Part2 起動
-// ==============================
-
-setTimeout(()=>{
-
-
-    setSelectEvents();
-
-
-},500);
-
-
-
 // ======================================
 // End Part2
-// ======================================
-
-
-// ======================================
-// Creators Data Base Ver.2.3
-// record.js
-// Tournament Record
-// Part3
-// ======================================
-
-
-// ==============================
-// 登録ボタン
-// ==============================
-
-const saveRecordButton =
-
-document.getElementById(
-    "saveRecord"
-);
-
-
-
-if(saveRecordButton){
-
-
-    saveRecordButton.addEventListener(
-
-        "click",
-
-        saveRecord
-
-    );
-
-
-}
-
-
-
-
-// ==============================
-// 大会結果保存
-// ==============================
-
-async function saveRecord(){
-
-
-
-    const tournamentId =
-
-    document.getElementById(
-        "tournamentSelect"
-    ).value;
-
-
-
-
-    const champion =
-
-    document.getElementById(
-        "championSelect"
-    ).value;
-
-
-
-    const runnerUp =
-
-    document.getElementById(
-        "runnerUpSelect"
-    ).value;
-
-
-
-    const third =
-
-    document.getElementById(
-        "thirdSelect"
-    ).value;
-
-
-
-    const best4 =
-
-    document.getElementById(
-        "best4Select"
-    ).value;
-
-
-
-
-    const memo =
-
-    document.getElementById(
-        "memo"
-    )
-
-    ?
-
-    document.getElementById(
-        "memo"
-    ).value
-
-    :
-
-    "";
-
-
-
-
-
-    if(!tournamentId){
-
-
-        alert(
-            "大会を選択してください。"
-        );
-
-
-        return;
-
-
-    }
-
-
-
-
-
-    if(!validateRecord()){
-
-
-        return;
-
-
-    }
-
-
-
-
-
-    const data = {
-
-
-        action:
-
-        "savetournament",
-
-
-
-        大会ID:
-
-        tournamentId,
-
-
-
-        優勝:
-
-        champion,
-
-
-
-        準優勝:
-
-        runnerUp,
-
-
-
-        "3位":
-
-        third,
-
-
-
-        ベスト4:
-
-        best4,
-
-
-
-        メモ:
-
-        memo
-
-
-    };
-
-
-
-
-
-    console.log(
-        "送信データ",
-        data
-    );
-
-
-
-
-
-
-    try{
-
-
-        const response =
-
-        await fetch(
-
-            API_URL,
-
-            {
-
-
-                method:"POST",
-
-
-
-                body:
-
-                JSON.stringify(
-                    data
-                )
-
-
-            }
-
-        );
-
-
-
-
-
-
-        const result =
-
-        await response.json();
-
-
-
-
-
-
-        console.log(
-            "GAS結果",
-            result
-        );
-
-
-
-
-
-
-        if(!result.success){
-
-
-            alert(
-
-                "登録失敗\n\n"
-
-                +
-
-                result.message
-
-            );
-
-
-            return;
-
-
-        }
-
-
-
-
-
-
-        alert(
-
-`大会結果を登録しました！
-
-・ポイント反映
-・戦績更新
-・称号チェック
-
-完了しました。`
-
-        );
-
-
-
-
-
-        resetForm();
-
-
-
-
-
-    }
-
-
-    catch(error){
-
-
-        console.error(
-            error
-        );
-
-
-
-        alert(
-
-            "通信エラーが発生しました。"
-
-        );
-
-
-    }
-
-
-
-}
-
-
-
-
-
-// ==============================
-// 入力リセット
-// ==============================
-
-function resetForm(){
-
-
-
-    const tournament =
-
-    document.getElementById(
-        "tournamentSelect"
-    );
-
-
-
-    if(tournament){
-
-        tournament.value = "";
-
-    }
-
-
-
-    selectIds.forEach(id=>{
-
-
-        const select =
-
-        document.getElementById(id);
-
-
-
-        if(select){
-
-            select.value = "";
-
-        }
-
-
-    });
-
-
-
-
-
-    const memo =
-
-    document.getElementById(
-        "memo"
-    );
-
-
-
-    if(memo){
-
-        memo.value = "";
-
-    }
-
-
-
-}
-
-
-
-// ======================================
-// End Part3
 // ======================================
