@@ -2,7 +2,8 @@
 // Creators Data Base Ver.2
 // mypage.js
 // Google Apps Script Edition
-// Title Unlock Edition
+// QR Authentication Edition
+// Complete Version
 // ======================================
 
 
@@ -24,11 +25,9 @@ let titles = [];
 
 let beys = [];
 
-let memberTitles = [];
-
 
 // ==============================
-// Token取得
+// URL Token
 // ==============================
 
 const params =
@@ -40,85 +39,148 @@ const token =
 params.get("token");
 
 
-if(!token){
+// ==============================
+// QR認証チェック
+// ==============================
+
+const qrAuthenticated =
+sessionStorage.getItem(
+    "qrAuthenticated"
+);
+
+const qrToken =
+sessionStorage.getItem(
+    "qrToken"
+);
+
+
+// ==============================
+// QR経由でない場合
+// ==============================
+
+if(
+
+    qrAuthenticated !== "true"
+
+    ||
+
+    !token
+
+    ||
+
+    qrToken !== token
+
+){
 
     alert(
-        "Tokenがありません。"
+        "QRコードを読み込んでください。"
     );
 
-    location.href =
-    "index.html";
+    location.replace(
+        "qr.html"
+    );
 
 }
 
 
 // ==============================
-// 初期読み込み
+// Data読み込み
 // ==============================
 
 async function initializePage(){
 
     try{
 
-        // ------------------------------
+        // ==========================
         // Members
-        // ------------------------------
+        // ==========================
 
         const membersData =
         await fetch(
+
             API_URL +
             "?action=members"
-        )
-        .then(
-            res => res.json()
+
+        ).then(
+
+            res => {
+
+                if(!res.ok){
+
+                    throw new Error(
+                        "Members API Error"
+                    );
+
+                }
+
+                return res.json();
+
+            }
+
         );
 
 
-        // ------------------------------
+        // ==========================
         // Titles
-        // ------------------------------
+        // ==========================
 
         const titlesData =
         await fetch(
+
             API_URL +
             "?action=titles"
-        )
-        .then(
-            res => res.json()
+
+        ).then(
+
+            res => {
+
+                if(!res.ok){
+
+                    throw new Error(
+                        "Titles API Error"
+                    );
+
+                }
+
+                return res.json();
+
+            }
+
         );
 
 
-        // ------------------------------
+        // ==========================
         // Beys
-        // ------------------------------
+        // ==========================
 
         const beysData =
         await fetch(
+
             API_URL +
             "?action=beys"
-        )
-        .then(
-            res => res.json()
+
+        ).then(
+
+            res => {
+
+                if(!res.ok){
+
+                    throw new Error(
+                        "Beys API Error"
+                    );
+
+                }
+
+                return res.json();
+
+            }
+
         );
 
 
-        // ------------------------------
-        // MemberTitles
-        // ------------------------------
-
-        const memberTitlesData =
-        await fetch(
-            API_URL +
-            "?action=membertitles"
-        )
-        .then(
-            res => res.json()
-        );
-
-
-        // ------------------------------
-        // Dataセット
-        // ------------------------------
+        // ==========================
+        // 保存
+        // ==========================
 
         titles =
         titlesData;
@@ -126,20 +188,17 @@ async function initializePage(){
         beys =
         beysData;
 
-        memberTitles =
-        memberTitlesData;
 
-
-        // ------------------------------
-        // メンバー検索
-        // ------------------------------
+        // ==========================
+        // Member検索
+        // ==========================
 
         member =
         membersData.find(
 
             m =>
 
-            String(m.Token)
+            String(m["Token"])
             ===
             String(token)
 
@@ -152,17 +211,20 @@ async function initializePage(){
                 "メンバーが見つかりません。"
             );
 
-            location.href =
-            "index.html";
+            sessionStorage.clear();
+
+            location.replace(
+                "qr.html"
+            );
 
             return;
 
         }
 
 
-        // ------------------------------
-        // ページ表示
-        // ------------------------------
+        // ==========================
+        // 表示
+        // ==========================
 
         loadProfile();
 
@@ -172,7 +234,7 @@ async function initializePage(){
     catch(error){
 
         console.error(
-            "読み込みエラー",
+            "Mypage Error:",
             error
         );
 
@@ -186,14 +248,10 @@ async function initializePage(){
 
 
 // ==============================
-// プロフィール表示
+// プロフィール
 // ==============================
 
 function loadProfile(){
-
-    // ------------------------------
-    // 名前
-    // ------------------------------
 
     const name =
     document.getElementById(
@@ -208,10 +266,6 @@ function loadProfile(){
     }
 
 
-    // ------------------------------
-    // ID
-    // ------------------------------
-
     const id =
     document.getElementById(
         "memberId"
@@ -221,14 +275,10 @@ function loadProfile(){
 
         id.textContent =
         "ID : " +
-        member["ID"];
+        (member["ID"] || "");
 
     }
 
-
-    // ------------------------------
-    // ポイント
-    // ------------------------------
 
     const point =
     document.getElementById(
@@ -238,16 +288,11 @@ function loadProfile(){
     if(point){
 
         point.textContent =
-        (member["ポイント"] || 0)
-        +
+        (member["ポイント"] || 0) +
         " PT";
 
     }
 
-
-    // ------------------------------
-    // アイコン
-    // ------------------------------
 
     const icon =
     document.getElementById(
@@ -257,39 +302,24 @@ function loadProfile(){
     if(icon){
 
         icon.src =
-        member["アイコン"]
-        ||
+        member["アイコン"] ||
         "images/default.png";
 
     }
 
 
-    // ------------------------------
-    // 戦績
-    // ------------------------------
-
     loadRecord();
 
-
-    // ------------------------------
-    // 獲得称号
-    // ------------------------------
-
     loadTitles();
-
-
-    // ------------------------------
-    // 相棒ベイ
-    // ------------------------------
 
     loadPartner();
 
 }
 
 
-// ======================================
-// 戦績表示
-// ======================================
+// ==============================
+// 戦績
+// ==============================
 
 function loadRecord(){
 
@@ -318,31 +348,35 @@ function loadRecord(){
     ];
 
 
-    recordList.forEach(item => {
+    recordList.forEach(
 
-        const element =
-        document.getElementById(
-            item.id
-        );
+        item => {
+
+            const element =
+            document.getElementById(
+                item.id
+            );
 
 
-        if(element){
+            if(element){
 
-            element.textContent =
-            member[item.key] || 0;
+                element.textContent =
+                member[item.key] || 0;
+
+            }
 
         }
 
-    });
+    );
 
 }
 
 
-// ======================================
-// 獲得済み称号一覧
-// ======================================
+// ==============================
+// 獲得済み称号
+// ==============================
 
-function loadTitles(){
+async function loadTitles(){
 
     const select =
     document.getElementById(
@@ -360,9 +394,50 @@ function loadTitles(){
     select.innerHTML = "";
 
 
-    // ------------------------------
-    // 獲得しているTitleIDだけ取得
-    // ------------------------------
+    // ==========================
+    // MemberTitles取得
+    // ==========================
+
+    let memberTitles = [];
+
+
+    try{
+
+        memberTitles =
+        await fetch(
+
+            API_URL +
+            "?action=membertitles"
+
+        ).then(
+
+            res => res.json()
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "MemberTitles Error:",
+            error
+        );
+
+        select.innerHTML =
+
+        `<option value="">
+            称号を読み込めません
+        </option>`;
+
+        return;
+
+    }
+
+
+    // ==========================
+    // 自分が持っている称号
+    // ==========================
 
     const ownedTitleIds =
 
@@ -372,112 +447,126 @@ function loadTitles(){
 
         item =>
 
-        String(item["MemberID"])
+        String(
+            item["MemberID"]
+        )
+
         ===
-        String(member["ID"])
+
+        String(
+            member["ID"]
+        )
 
     )
 
     .map(
 
         item =>
-        String(item["TitleID"])
+        String(
+            item["TitleID"]
+        )
 
     );
 
 
-    // ------------------------------
-    // 獲得称号を表示
-    // ------------------------------
+    // ==========================
+    // Titlesと照合
+    // ==========================
 
-    titles.forEach(title => {
+    titles.forEach(
 
-
-        // 公開されている称号のみ
-
-        const isPublic =
-
-        title["公開"] === true
-
-        ||
-
-        String(title["公開"])
-        .toLowerCase()
-        ===
-        "true";
+        title => {
 
 
-        if(!isPublic){
+            const isPublic =
 
-            return;
+            title["公開"] === true
 
-        }
+            ||
 
-
-        // --------------------------
-        // このメンバーが持っているか
-        // --------------------------
-
-        const titleId =
-        String(title["ID"]);
-
-
-        if(
-            !ownedTitleIds.includes(titleId)
-        ){
-
-            return;
-
-        }
-
-
-        // --------------------------
-        // option作成
-        // --------------------------
-
-        const option =
-        document.createElement(
-            "option"
-        );
-
-
-        option.value =
-        title["ID"];
-
-
-        option.textContent =
-        title["名前"];
-
-
-        // 現在選択中の称号
-
-        if(
-
-            String(title["ID"])
+            String(
+                title["公開"]
+            )
+            .toLowerCase()
             ===
-            String(member["選択称号"])
+            "true";
 
-        ){
 
-            option.selected =
-            true;
+            if(!isPublic){
+
+                return;
+
+            }
+
+
+            const titleId =
+            String(title["ID"]);
+
+
+            // ======================
+            // 未獲得なら表示しない
+            // ======================
+
+            if(
+
+                !ownedTitleIds.includes(
+                    titleId
+                )
+
+            ){
+
+                return;
+
+            }
+
+
+            const option =
+            document.createElement(
+                "option"
+            );
+
+
+            option.value =
+            title["ID"];
+
+
+            option.textContent =
+            title["名前"];
+
+
+            if(
+
+                String(title["ID"])
+                ===
+                String(
+                    member["選択称号"]
+                )
+
+            ){
+
+                option.selected =
+                true;
+
+            }
+
+
+            select.appendChild(
+                option
+            );
+
 
         }
 
-
-        select.appendChild(
-            option
-        );
+    );
 
 
-    });
-
-
-    // ------------------------------
+    // ==========================
     // 称号が1つもない場合
-    // ------------------------------
+    // ==========================
 
-    if(select.options.length === 0){
+    if(
+        select.options.length === 0
+    ){
 
         const option =
         document.createElement(
@@ -487,7 +576,7 @@ function loadTitles(){
         option.value = "";
 
         option.textContent =
-        "獲得称号なし";
+        "称号なし";
 
         select.appendChild(
             option
@@ -498,9 +587,9 @@ function loadTitles(){
 }
 
 
-// ======================================
-// ベイ一覧
-// ======================================
+// ==============================
+// 相棒ベイ
+// ==============================
 
 function loadPartner(){
 
@@ -520,72 +609,87 @@ function loadPartner(){
     select.innerHTML = "";
 
 
-    beys.forEach(bey => {
+    beys.forEach(
+
+        bey => {
 
 
-        const isPublic =
+            const isPublic =
 
-        bey["公開"] === true
+            bey["公開"] === true
 
-        ||
+            ||
 
-        String(bey["公開"])
-        .toLowerCase()
-        ===
-        "true";
-
-
-        if(!isPublic){
-
-            return;
-
-        }
-
-
-        const option =
-        document.createElement(
-            "option"
-        );
-
-
-        option.value =
-        bey["ID"];
-
-
-        option.textContent =
-
-        `${bey["名前"]} (${bey["タイプ"]})`;
-
-
-        if(
-
-            String(bey["ID"])
+            String(
+                bey["公開"]
+            )
+            .toLowerCase()
             ===
-            String(member["相棒ベイ"])
+            "true";
 
-        ){
 
-            option.selected =
-            true;
+            if(!isPublic){
+
+                return;
+
+            }
+
+
+            const option =
+            document.createElement(
+                "option"
+            );
+
+
+            option.value =
+            bey["ID"];
+
+
+            option.textContent =
+
+            `${bey["名前"]} (${bey["タイプ"]})`;
+
+
+            if(
+
+                String(bey["ID"])
+                ===
+                String(
+                    member["相棒ベイ"]
+                )
+
+            ){
+
+                option.selected =
+                true;
+
+            }
+
+
+            select.appendChild(
+                option
+            );
+
 
         }
 
-
-        select.appendChild(
-            option
-        );
-
-
-    });
+    );
 
 }
 
 
-// ======================================
-// プロフィール保存
-// ======================================
+// ==============================
+// 保存
+// ==============================
 
 async function saveProfile(){
+
+    if(!member){
+
+        return;
+
+    }
+
 
     try{
 
@@ -619,10 +723,6 @@ async function saveProfile(){
         "";
 
 
-        // ------------------------------
-        // 送信データ
-        // ------------------------------
-
         const sendData = {
 
             action:
@@ -646,12 +746,7 @@ async function saveProfile(){
         );
 
 
-        // ------------------------------
-        // GASへ送信
-        // ------------------------------
-
         const response =
-
         await fetch(
 
             API_URL,
@@ -680,17 +775,11 @@ async function saveProfile(){
         );
 
 
-        // ------------------------------
-        // 保存失敗
-        // ------------------------------
-
         if(!result.success){
 
             alert(
 
-                "保存失敗\n\n"
-
-                +
+                "保存に失敗しました。\n\n" +
 
                 result.message
 
@@ -701,9 +790,9 @@ async function saveProfile(){
         }
 
 
-        // ------------------------------
+        // ==========================
         // 表示中データ更新
-        // ------------------------------
+        // ==========================
 
         member["選択称号"] =
         selectedTitle;
@@ -723,7 +812,7 @@ async function saveProfile(){
     catch(error){
 
         console.error(
-            "保存エラー",
+            "保存エラー:",
             error
         );
 
@@ -737,9 +826,9 @@ async function saveProfile(){
 }
 
 
-// ======================================
-// 保存ボタン登録
-// ======================================
+// ==============================
+// 保存ボタン
+// ==============================
 
 const saveButton =
 document.getElementById(
@@ -750,20 +839,39 @@ document.getElementById(
 if(saveButton){
 
     saveButton.addEventListener(
+
         "click",
+
         saveProfile
+
     );
 
 }
 
 
-// ======================================
+// ==============================
 // 起動
-// ======================================
+// ==============================
 
-initializePage();
+if(
+
+    qrAuthenticated === "true"
+
+    &&
+
+    token
+
+    &&
+
+    qrToken === token
+
+){
+
+    initializePage();
+
+}
 
 
-// ======================================
+// ==============================
 // End
-// ======================================
+// ==============================
