@@ -3,6 +3,7 @@
 // qr.js
 // QR Token Reader
 // Google Apps Script Edition
+// Camera Message Fix
 // ======================================
 
 
@@ -44,6 +45,11 @@ async function startScanner(){
         return;
     }
 
+    // 起動開始メッセージ
+    showMessage(
+        "カメラを起動しています..."
+    );
+
     try{
 
         const stream =
@@ -68,6 +74,15 @@ async function startScanner(){
 
 
         scanning = true;
+
+
+        // ==========================
+        // カメラ起動成功
+        // ==========================
+
+        showMessage(
+            "QRコードをカメラにかざしてください"
+        );
 
 
         scanQR();
