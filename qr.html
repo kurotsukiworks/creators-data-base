@@ -3,78 +3,223 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-    <title>QRコード読み込み | Creators Member System</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <link rel="stylesheet" href="css/style.css">
+<title>QR読み込み | Creators Data Base</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
 
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap"
+    rel="stylesheet"
+>
 
 </head>
 
+
 <body>
 
-<div class="background-lines"></div>
 
-<header class="page-header">
+<div class="background">
 
-    <img src="images/logo.png" class="logo" alt="Creators">
+    <div class="left-line"></div>
 
-    <h1>QR SCANNER</h1>
+    <div class="left-line2"></div>
 
-    <p class="subtitle">
-        MEMBER CARD READER
+</div>
+
+
+
+<div class="container fadeIn">
+
+
+    <!-- ロゴ -->
+
+    <img
+        src="images/logo.png"
+        class="logo"
+        alt="Creators Logo"
+    >
+
+
+    <!-- タイトル -->
+
+    <h1 class="title">
+
+        QR SCAN
+
+    </h1>
+
+
+    <p class="subTitle">
+
+        CREATORS DATA BASE
+
     </p>
 
-</header>
 
-<main>
 
-    <div class="profile-card">
+    <!-- 説明 -->
 
-        <h2>QRコードを読み込む</h2>
+    <div class="card">
 
-        <p style="margin-top:15px;">
-            会員証のQRコードをカメラに向けてください。
+
+        <h2>
+
+            📷 QRコードを読み込む
+
+        </h2>
+
+
+        <p>
+
+            Creators Data Base専用QRコードを
+            カメラに映してください。
+
         </p>
 
-        <div id="reader" style="margin-top:30px;">
 
-            <div style="
-            width:250px;
-            height:250px;
-            margin:auto;
-            border:4px solid #FFD400;
-            border-radius:20px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#222;
-            color:#FFD400;
-            font-weight:bold;">
+        <p>
 
-                CAMERA
+            ※スマートフォンの標準カメラではなく、
+            このページから読み込んでください。
 
-            </div>
+        </p>
 
-        </div>
-
-        <a href="index.html" class="main-button" style="margin-top:30px;">
-            ← ホームへ戻る
-        </a>
 
     </div>
 
-</main>
 
 
-<script src="https://unpkg.com/html5-qrcode"></script>
-<script src="js/qr.js"></script>
+    <!-- QRカメラ -->
+
+    <div class="card qrCard">
+
+
+        <div class="qrCamera">
+
+
+            <video
+
+                id="qrVideo"
+
+                autoplay
+
+                muted
+
+                playsinline
+
+            ></video>
+
+
+            <!-- スキャン枠 -->
+
+            <div class="qrFrame">
+
+                <span class="corner topLeft"></span>
+
+                <span class="corner topRight"></span>
+
+                <span class="corner bottomLeft"></span>
+
+                <span class="corner bottomRight"></span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- 読み込み状態 -->
+
+        <div
+
+            id="qrResult"
+
+            class="qrResult"
+
+        >
+
+            カメラを起動しています...
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- 戻る -->
+
+    <div class="card">
+
+
+        <a
+
+            href="index.html"
+
+            class="adminButton"
+
+        >
+
+            ← トップへ戻る
+
+        </a>
+
+
+    </div>
+
+
+
+    <div class="footer">
+
+        Creators Data Base Ver.2
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ============================== -->
+<!-- jsQR -->
+<!-- ============================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js">
+</script>
+
+
+
+<!-- ============================== -->
+<!-- QR Script -->
+<!-- ============================== -->
+
+<script
+    src="js/qr.js">
+</script>
+
 
 </body>
 
