@@ -221,6 +221,7 @@ async function initializePage(){
 
         }
         
+
 // ==========================
 // QRログインボーナス
 // ==========================
@@ -262,19 +263,28 @@ try{
     );
 
 
-if(bonusResult.success){
+    // ==========================
+    // ログインボーナス成功
+    // ==========================
 
-    if(
-        Number(bonusResult.point) > 0
-    ){
+    if(bonusResult.success){
 
-        member["ポイント"] =
-        Number(member["ポイント"] || 0)
-        +
-        Number(bonusResult.point);
+        if(
+            Number(bonusResult.point) > 0
+        ){
+
+            member["ポイント"] =
+            Number(
+                member["ポイント"] || 0
+            )
+            +
+            Number(
+                bonusResult.point
+            );
 
 
-        alert(
+            alert(
+
 `🎁 ログインボーナスGET！
 
 ${bonusResult.point} PT
@@ -282,13 +292,18 @@ ${bonusResult.point} PT
 
 現在のポイント：
 ${member["ポイント"]} PT`
-        );
+
+            );
+
+        }
 
     }
 
-}
 
-    }
+    // ==========================
+    // GAS側エラー
+    // ==========================
+
     else{
 
         console.error(
@@ -299,6 +314,7 @@ ${member["ポイント"]} PT`
     }
 
 }
+
 catch(error){
 
     console.error(
@@ -307,8 +323,6 @@ catch(error){
     );
 
 }
-
-
         // ==========================
         // 表示
         // ==========================
