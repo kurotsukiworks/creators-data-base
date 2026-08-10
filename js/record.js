@@ -3,7 +3,7 @@
 // record.js
 // Tournament Record
 // Team Battle 3 Members Edition
-// Part 2
+// Part 1
 // ======================================
 
 
@@ -58,7 +58,7 @@ const rankGroups = {
 
 
 // ==============================
-// 全Select
+// 全メンバーSelect
 // ==============================
 
 const selectIds = [
@@ -114,6 +114,15 @@ async function initialize(){
         await membersResponse.json();
 
 
+        if(!Array.isArray(membersData)){
+
+            throw new Error(
+                "Members data is not array"
+            );
+
+        }
+
+
         // --------------------------
         // 大会取得
         // --------------------------
@@ -138,38 +147,46 @@ async function initialize(){
         await tournamentsResponse.json();
 
 
+        if(!Array.isArray(tournamentsData)){
+
+            throw new Error(
+                "Tournaments data is not array"
+            );
+
+        }
+
+
         // --------------------------
         // データ保存
         // --------------------------
 
         members =
-        Array.isArray(membersData)
-        ? membersData
-        : [];
-
+        membersData;
 
         tournaments =
-        Array.isArray(tournamentsData)
-        ? tournamentsData
-        : [];
+        tournamentsData;
 
 
         // --------------------------
-        // 画面表示
+        // 大会一覧表示
         // --------------------------
 
         loadTournamentList();
 
-        loadMemberLists();
 
-        setSelectEvents();
+        // --------------------------
+        // メンバー一覧表示
+        // --------------------------
+
+        loadMemberLists();
 
 
         console.log(
-            "Tournament Record Ready"
+            "Creators Tournament Record Ready"
         );
 
     }
+
 
     catch(error){
 
@@ -180,7 +197,8 @@ async function initialize(){
 
 
         alert(
-            "データの読み込みに失敗しました。"
+            "データの読み込みに失敗しました。\n\n" +
+            "大会登録ページのデータを確認してください。"
         );
 
     }
@@ -202,6 +220,10 @@ function loadTournamentList(){
 
     if(!select){
 
+        console.error(
+            "tournamentSelect が見つかりません。"
+        );
+
         return;
 
     }
@@ -216,7 +238,8 @@ function loadTournamentList(){
     );
 
 
-    defaultOption.value = "";
+    defaultOption.value =
+    "";
 
 
     defaultOption.textContent =
@@ -239,7 +262,7 @@ function loadTournamentList(){
 
             option.value =
             String(
-                tournament["ID"]
+                tournament["ID"] || ""
             );
 
 
@@ -271,6 +294,11 @@ function loadMemberLists(){
 
 
             if(!select){
+
+                console.warn(
+                    id +
+                    " が見つかりません。"
+                );
 
                 return;
 
@@ -309,15 +337,16 @@ function loadMemberLists(){
 
 
                     /*
-                     * IDを必ず文字列として扱う
-                     * 
-                     * ID0001などの先頭0が
-                     * 消えないようにする
+                     * IDは必ず文字列として扱う
+                     *
+                     * これにより
+                     * 数値ID・文字列IDの比較による
+                     * 選択不具合を防止
                      */
 
                     option.value =
                     String(
-                        member["ID"]
+                        member["ID"] || ""
                     );
 
 
@@ -339,7 +368,28 @@ function loadMemberLists(){
 
 
 // ==============================
-// Selectイベント
+// Part 1 起動
+// ==============================
+
+initialize();
+
+
+// ======================================
+// End Part 1
+// ======================================
+
+
+// ======================================
+// Creators Data Base Ver.2.3
+// record.js
+// Tournament Record
+// Team Battle 3 Members Edition
+// Part 2
+// ======================================
+
+
+// ==============================
+// Selectイベント登録
 // ==============================
 
 function setSelectEvents(){
@@ -370,7 +420,7 @@ function setSelectEvents(){
 
 
 // ==============================
-// 選択済みメンバー取得
+// 選択されているメンバー取得
 // ==============================
 
 function getSelectedMembers(){
@@ -420,8 +470,7 @@ function getSelectedMembers(){
 function updateSelects(){
 
     /*
-     * 現在選択されている値を
-     * いったん全部保存
+     * 現在選択されている値を保存
      */
 
     const currentValues = {};
@@ -448,7 +497,8 @@ function updateSelects(){
 
 
     /*
-     * 全体で選択済みのID
+     * 現在選択されている
+     * メンバーID一覧
      */
 
     const selectedValues =
@@ -484,6 +534,10 @@ function updateSelects(){
             select.innerHTML = "";
 
 
+            /*
+             * 初期項目
+             */
+
             const defaultOption =
             document.createElement(
                 "option"
@@ -503,32 +557,37 @@ function updateSelects(){
             );
 
 
+            /*
+             * メンバー一覧
+             */
+
             members.forEach(
                 member => {
 
                     const memberId =
                     String(
-                        member["ID"]
+                        member["ID"] || ""
                     );
 
 
                     /*
-                     * 他のプルダウンで
-                     * 選ばれている人は除外
+                     * すでに他のプルダウンで
+                     * 選択されている場合は除外
                      *
-                     * ただし自分自身の現在値は残す
+                     * ただし現在のプルダウン自身が
+                     * 選択している人は残す
                      */
 
-                    const alreadySelected =
-                    selectedValues.includes(
-                        memberId
-                    );
-
-
                     if(
-                        alreadySelected
+
+                        selectedValues.includes(
+                            memberId
+                        )
+
                         &&
+
                         memberId !== current
+
                     ){
 
                         return;
@@ -549,6 +608,10 @@ function updateSelects(){
                     option.textContent =
                     member["名前"] || "";
 
+
+                    /*
+                     * 現在選択中なら復元
+                     */
 
                     if(
                         memberId === current
@@ -574,7 +637,7 @@ function updateSelects(){
 
 
 // ==============================
-// 選択値取得
+// 順位ごとの選択値取得
 // ==============================
 
 function getRankValues(
@@ -620,8 +683,8 @@ function validateRecord(){
 
 
     /*
-     * 同じ人が複数順位に
-     * 入っていないか確認
+     * Setを使って
+     * 重複をチェック
      */
 
     const unique =
@@ -657,20 +720,39 @@ function createRankData(){
 
     return {
 
+        /*
+         * 優勝
+         */
+
         優勝:
         getRankValues(
             rankGroups.champion
         ),
+
+
+        /*
+         * 準優勝
+         */
 
         準優勝:
         getRankValues(
             rankGroups.runnerUp
         ),
 
+
+        /*
+         * 3位
+         */
+
         "3位":
         getRankValues(
             rankGroups.third
         ),
+
+
+        /*
+         * ベスト4
+         */
 
         ベスト4:
         getRankValues(
@@ -683,12 +765,441 @@ function createRankData(){
 
 
 // ==============================
-// 起動
+// Part 2 起動
 // ==============================
 
-initialize();
+setSelectEvents();
 
 
 // ======================================
-// End Part2
+// End Part 2
+// ======================================
+
+// ======================================
+// Creators Data Base Ver.2.3
+// record.js
+// Tournament Record
+// Team Battle 3 Members Edition
+// Part 3
+// ======================================
+
+
+// ==============================
+// 登録ボタン設定
+// ==============================
+
+function setSaveButton(){
+
+    const button =
+    document.getElementById(
+        "saveRecord"
+    );
+
+
+    if(!button){
+
+        console.error(
+            "saveRecord ボタンが見つかりません。"
+        );
+
+        return;
+
+    }
+
+
+    button.addEventListener(
+        "click",
+        saveRecord
+    );
+
+}
+
+
+// ==============================
+// 大会結果保存
+// ==============================
+
+async function saveRecord(){
+
+    /*
+     * 二重クリック防止
+     */
+
+    const button =
+    document.getElementById(
+        "saveRecord"
+    );
+
+
+    if(button){
+
+        button.disabled = true;
+
+    }
+
+
+    try{
+
+        // ==========================
+        // 大会取得
+        // ==========================
+
+        const tournamentSelect =
+        document.getElementById(
+            "tournamentSelect"
+        );
+
+
+        const tournamentId =
+        tournamentSelect
+        ? String(
+            tournamentSelect.value || ""
+          )
+        : "";
+
+
+        // ==========================
+        // 大会チェック
+        // ==========================
+
+        if(!tournamentId){
+
+            alert(
+                "大会を選択してください。"
+            );
+
+            return;
+
+        }
+
+
+        // ==========================
+        // メンバー重複チェック
+        // ==========================
+
+        if(!validateRecord()){
+
+            return;
+
+        }
+
+
+        // ==========================
+        // 順位データ取得
+        // ==========================
+
+        const rankData =
+        createRankData();
+
+
+        console.log(
+            "順位データ",
+            rankData
+        );
+
+
+        // ==========================
+        // 少なくとも1人必要
+        // ==========================
+
+        const totalMembers =
+
+            rankData.優勝.length +
+
+            rankData.準優勝.length +
+
+            rankData["3位"].length +
+
+            rankData.ベスト4.length;
+
+
+        if(totalMembers === 0){
+
+            alert(
+                "少なくとも1人のメンバーを選択してください。"
+            );
+
+            return;
+
+        }
+
+
+        // ==========================
+        // メモ
+        // ==========================
+
+        const memoElement =
+        document.getElementById(
+            "memo"
+        );
+
+
+        const memo =
+        memoElement
+        ? memoElement.value
+        : "";
+
+
+        // ==========================
+        // GASへ送信するデータ
+        // ==========================
+
+        const data = {
+
+            action:
+            "savetournament",
+
+
+            大会ID:
+            tournamentId,
+
+
+            /*
+             * 3人分を配列で送信
+             */
+
+            優勝:
+            rankData.優勝,
+
+
+            準優勝:
+            rankData.準優勝,
+
+
+            "3位":
+            rankData["3位"],
+
+
+            ベスト4:
+            rankData.ベスト4,
+
+
+            メモ:
+            memo || ""
+
+        };
+
+
+        console.log(
+            "GAS送信データ",
+            data
+        );
+
+
+        // ==========================
+        // GAS通信
+        // ==========================
+
+        const response =
+        await fetch(
+
+            API_URL,
+
+            {
+
+                method:
+                "POST",
+
+
+                body:
+                JSON.stringify(data)
+
+            }
+
+        );
+
+
+        // ==========================
+        // HTTPエラーチェック
+        // ==========================
+
+        if(!response.ok){
+
+            throw new Error(
+                "HTTP Error : " +
+                response.status
+            );
+
+        }
+
+
+        // ==========================
+        // JSON取得
+        // ==========================
+
+        const result =
+        await response.json();
+
+
+        console.log(
+            "GAS結果",
+            result
+        );
+
+
+        // ==========================
+        // GAS側エラー
+        // ==========================
+
+        if(!result.success){
+
+            alert(
+
+                "登録に失敗しました。\n\n" +
+
+                (
+                    result.message
+                    ||
+                    "不明なエラーが発生しました。"
+                )
+
+            );
+
+            return;
+
+        }
+
+
+        // ==========================
+        // 登録成功
+        // ==========================
+
+        alert(
+
+`大会結果を登録しました！
+
+・大会結果を保存
+・ポイントを反映
+・戦績を更新
+
+登録が完了しました。`
+
+        );
+
+
+        // ==========================
+        // フォームリセット
+        // ==========================
+
+        resetForm();
+
+
+    }
+
+
+    catch(error){
+
+        console.error(
+            "Tournament Save Error:",
+            error
+        );
+
+
+        alert(
+
+            "通信エラーが発生しました。\n\n" +
+
+            "GASとの通信に失敗しました。"
+
+        );
+
+    }
+
+
+    finally{
+
+        /*
+         * ボタンを再び有効化
+         */
+
+        if(button){
+
+            button.disabled = false;
+
+        }
+
+    }
+
+}
+
+
+// ==============================
+// フォームリセット
+// ==============================
+
+function resetForm(){
+
+    // --------------------------
+    // 大会
+    // --------------------------
+
+    const tournament =
+    document.getElementById(
+        "tournamentSelect"
+    );
+
+
+    if(tournament){
+
+        tournament.value = "";
+
+    }
+
+
+    // --------------------------
+    // 全メンバーSelect
+    // --------------------------
+
+    selectIds.forEach(
+        id => {
+
+            const select =
+            document.getElementById(id);
+
+
+            if(select){
+
+                select.value = "";
+
+            }
+
+        }
+    );
+
+
+    // --------------------------
+    // メモ
+    // --------------------------
+
+    const memo =
+    document.getElementById(
+        "memo"
+    );
+
+
+    if(memo){
+
+        memo.value = "";
+
+    }
+
+
+    // --------------------------
+    // 選択肢を再構築
+    // --------------------------
+
+    updateSelects();
+
+}
+
+
+// ==============================
+// Part 3 起動
+// ==============================
+
+setSaveButton();
+
+
+// ======================================
+// End Part 3
 // ======================================
