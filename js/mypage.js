@@ -254,6 +254,11 @@ try{
 
     const bonusResult =
     await bonusResponse.json();
+    
+    alert(
+    "ログインボーナスAPIの返答：\n\n" +
+    JSON.stringify(bonusResult)
+);
 
 
     console.log(
