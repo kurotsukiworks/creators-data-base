@@ -220,6 +220,88 @@ async function initializePage(){
             return;
 
         }
+        
+// ==========================
+// QRログインボーナス
+// ==========================
+
+try{
+
+    const bonusResponse =
+    await fetch(
+
+        API_URL,
+
+        {
+
+            method:"POST",
+
+            body:
+            JSON.stringify({
+
+                action:
+                "loginbonus",
+
+                ID:
+                member["ID"]
+
+            })
+
+        }
+
+    );
+
+
+    const bonusResult =
+    await bonusResponse.json();
+
+
+    console.log(
+        "ログインボーナス結果",
+        bonusResult
+    );
+
+
+    if(bonusResult.success){
+
+        // 今日初回ならポイント反映
+        if(
+            Number(bonusResult.point) > 0
+        ){
+
+            member["ポイント"] =
+            Number(member["ポイント"] || 0)
+            +
+            Number(bonusResult.point);
+
+
+            console.log(
+                "ログインボーナス獲得：",
+                bonusResult.point,
+                "PT"
+            );
+
+        }
+
+    }
+    else{
+
+        console.error(
+            "ログインボーナスエラー:",
+            bonusResult.message
+        );
+
+    }
+
+}
+catch(error){
+
+    console.error(
+        "ログインボーナス通信エラー:",
+        error
+    );
+
+}
 
 
         // ==========================
