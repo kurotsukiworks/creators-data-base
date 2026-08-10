@@ -262,26 +262,31 @@ try{
     );
 
 
-    if(bonusResult.success){
+if(bonusResult.success){
 
-        // 今日初回ならポイント反映
-        if(
-            Number(bonusResult.point) > 0
-        ){
+    if(
+        Number(bonusResult.point) > 0
+    ){
 
-            member["ポイント"] =
-            Number(member["ポイント"] || 0)
-            +
-            Number(bonusResult.point);
+        member["ポイント"] =
+        Number(member["ポイント"] || 0)
+        +
+        Number(bonusResult.point);
 
 
-            console.log(
-                "ログインボーナス獲得：",
-                bonusResult.point,
-                "PT"
-            );
+        alert(
+`🎁 ログインボーナスGET！
 
-        }
+${bonusResult.point} PT
+獲得しました！
+
+現在のポイント：
+${member["ポイント"]} PT`
+        );
+
+    }
+
+}
 
     }
     else{
