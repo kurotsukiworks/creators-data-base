@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>景品管理 | Creators Admin</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap"
+    rel="stylesheet"
+>
+
+</head>
+
+
+<body>
+
+
+<div class="background">
+
+    <div class="left-line"></div>
+
+    <div class="left-line2"></div>
+
+</div>
+
+
+<div class="container fadeIn">
+
+
+    <!-- ==========================
+         ロゴ
+    ========================== -->
+
+    <img
+        src="images/logo.png"
+        class="logo"
+        alt="Creators Logo"
+    >
+
+
+    <!-- ==========================
+         タイトル
+    ========================== -->
+
+    <h1 class="title">
+
+        REWARD
+
+    </h1>
+
+
+    <p class="subTitle">
+
+        景品管理
+
+    </p>
+
+
+    <!-- ==========================
+         管理者確認
+    ========================== -->
+
+    <div
+        id="authError"
+        class="card hidden"
+    >
+
+        <h2>
+
+            🔒 管理者専用
+
+        </h2>
+
+        <p class="smallText">
+
+            管理者としてログインしてください。
+
+        </p>
+
+        <a
+            href="admin.html"
+            class="yellowButton"
+        >
+
+            管理画面へ戻る
+
+        </a>
+
+    </div>
+
+
+    <!-- ==========================
+         管理画面
+    ========================== -->
+
+    <div
+        id="manageArea"
+        class="hidden"
+    >
+
+
+        <!-- ==========================
+             景品管理
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+
+                🎁 景品一覧
+
+            </h2>
+
+            <p class="smallText">
+
+                現在設定されている景品です。
+
+            </p>
+
+
+            <!-- 限定ステッカー -->
+
+            <div class="rewardManageItem">
+
+                <div class="rewardManageInfo">
+
+                    <h3>
+                        限定ステッカー
+                    </h3>
+
+                    <p>
+                        100 PT
+                    </p>
+
+                    <span class="statusActive">
+                        公開中
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- 限定バトルパスシート -->
+
+            <div class="rewardManageItem">
+
+                <div class="rewardManageInfo">
+
+                    <h3>
+                        限定バトルパスシート
+                    </h3>
+
+                    <p>
+                        200 PT
+                    </p>
+
+                    <span class="statusActive">
+                        公開中
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- 限定BIGステッカー -->
+
+            <div class="rewardManageItem">
+
+                <div class="rewardManageInfo">
+
+                    <h3>
+                        限定BIGステッカー
+                    </h3>
+
+                    <p>
+                        300 PT
+                    </p>
+
+                    <span class="statusActive">
+                        公開中
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ステッカー無料オーダー権 -->
+
+            <div class="rewardManageItem">
+
+                <div class="rewardManageInfo">
+
+                    <h3>
+                        ステッカー無料オーダー権
+                    </h3>
+
+                    <p>
+                        350 PT
+                    </p>
+
+                    <span class="statusActive">
+                        公開中
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- パスシート無料オーダー権 -->
+
+            <div class="rewardManageItem">
+
+                <div class="rewardManageInfo">
+
+                    <h3>
+                        パスシート無料オーダー権
+                    </h3>
+
+                    <span class="statusActive">
+                        公開中
+                    </span>
+
+                    <p>
+                        350 PT
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ==========================
+             交換申請
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+
+                📋 景品交換申請
+
+            </h2>
+
+            <p class="smallText">
+
+                メンバーからの景品交換申請を確認します。
+
+            </p>
+
+
+            <div
+                id="requestList"
+            >
+
+                <div class="requestEmpty">
+
+                    現在、交換申請はありません。
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================
+             今後の通知
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+
+                🔔 通知
+
+            </h2>
+
+            <p class="smallText">
+
+                交換申請の通知機能は今後追加予定です。
+
+            </p>
+
+        </div>
+
+
+        <!-- ==========================
+             管理画面へ戻る
+        ========================== -->
+
+        <div class="card">
+
+            <a
+                href="admin.html"
+                class="yellowButton"
+            >
+
+                ← 管理画面へ戻る
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==========================
+         Footer
+    ========================== -->
+
+    <div class="footer">
+
+        Creators Data Base Ver.2.3
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================
+     JavaScript
+========================== -->
+
+<script src="js/rewardManage.js"></script>
+
+
+</body>
+
+</html>
