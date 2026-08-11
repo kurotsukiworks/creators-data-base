@@ -1433,3 +1433,70 @@ body{
     animation:fadeIn .5s ease;
 
 }
+
+/* ======================================
+   景品交換
+====================================== */
+
+/* 景品1つ分 */
+.rewardItem {
+
+    padding: 18px 0 24px;
+
+    margin: 0;
+
+    border-bottom: 2px solid rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* 最後の景品だけ下線を少し弱くする */
+.rewardItem:last-child {
+
+    border-bottom: none;
+
+}
+
+
+/* 景品名 */
+.rewardItem .rewardInfo h3 {
+
+    margin: 0 0 2px;
+
+    font-size: 1.25rem;
+
+    line-height: 1.4;
+
+}
+
+
+/* ポイント */
+.rewardItem .rewardInfo p {
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    line-height: 1.4;
+
+}
+
+
+/* 交換ボタン */
+.rewardItem .rewardButton {
+
+    display: block;
+
+    width: 100%;
+
+    margin-top: 14px;
+
+}
+
+
+/* 景品同士の間隔 */
+.rewardItem + .rewardItem {
+
+    padding-top: 28px;
+
+}
