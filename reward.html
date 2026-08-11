@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>景品交換 | Creators Data Base</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap"
+    rel="stylesheet"
+>
+
+</head>
+
+
+<body>
+
+
+<div class="background">
+
+    <div class="left-line"></div>
+
+    <div class="left-line2"></div>
+
+</div>
+
+
+<div class="container fadeIn">
+
+
+    <!-- ==========================
+         ロゴ
+    ========================== -->
+
+    <img
+        src="images/logo.png"
+        class="logo"
+        alt="Creators Logo"
+    >
+
+
+    <!-- ==========================
+         タイトル
+    ========================== -->
+
+    <h1 class="title">
+
+        REWARD
+
+    </h1>
+
+
+    <p class="subTitle">
+
+        景品交換
+
+    </p>
+
+
+    <!-- ==========================
+         現在ポイント
+    ========================== -->
+
+    <div class="card">
+
+
+        <h2>
+
+            ⭐ 現在のポイント
+
+        </h2>
+
+
+        <div
+            id="currentPoint"
+            class="pointDisplay"
+        >
+
+            読み込み中...
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==========================
+         景品一覧
+    ========================== -->
+
+    <div class="card">
+
+
+        <h2>
+
+            🎁 景品一覧
+
+        </h2>
+
+
+        <p class="smallText">
+
+            所持ポイントを使用して景品と交換できます。
+
+        </p>
+
+
+        <!-- 限定ステッカー -->
+
+        <div class="rewardItem">
+
+
+            <div class="rewardInfo">
+
+                <h3>
+
+                    限定ステッカー
+
+                </h3>
+
+                <p>
+
+                    100 PT
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="yellowButton rewardButton"
+                data-reward-id="REWARD001"
+                data-cost="100"
+            >
+
+                交換する
+
+            </button>
+
+
+        </div>
+
+
+        <!-- 限定バトルパスシート -->
+
+        <div class="rewardItem">
+
+
+            <div class="rewardInfo">
+
+                <h3>
+
+                    限定バトルパスシート
+
+                </h3>
+
+                <p>
+
+                    200 PT
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="yellowButton rewardButton"
+                data-reward-id="REWARD002"
+                data-cost="200"
+            >
+
+                交換する
+
+            </button>
+
+
+        </div>
+
+
+        <!-- 限定BIGステッカー -->
+
+        <div class="rewardItem">
+
+
+            <div class="rewardInfo">
+
+                <h3>
+
+                    限定BIGステッカー
+
+                </h3>
+
+                <p>
+
+                    300 PT
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="yellowButton rewardButton"
+                data-reward-id="REWARD003"
+                data-cost="300"
+            >
+
+                交換する
+
+            </button>
+
+
+        </div>
+
+
+        <!-- ステッカー無料オーダー権 -->
+
+        <div class="rewardItem">
+
+
+            <div class="rewardInfo">
+
+                <h3>
+
+                    ステッカー無料オーダー権
+
+                </h3>
+
+                <p>
+
+                    350 PT
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="yellowButton rewardButton"
+                data-reward-id="REWARD004"
+                data-cost="350"
+            >
+
+                交換する
+
+            </button>
+
+
+        </div>
+
+
+        <!-- パスシート無料オーダー権 -->
+
+        <div class="rewardItem">
+
+
+            <div class="rewardInfo">
+
+                <h3>
+
+                    パスシート無料オーダー権
+
+                </h3>
+
+                <p>
+
+                    350 PT
+
+                </p>
+
+            </div>
+
+
+            <button
+                class="yellowButton rewardButton"
+                data-reward-id="REWARD005"
+                data-cost="350"
+            >
+
+                交換する
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==========================
+         注意事項
+    ========================== -->
+
+    <div class="card">
+
+
+        <h2>
+
+            ⚠️ 注意事項
+
+        </h2>
+
+
+        <p class="smallText">
+
+            景品交換には所持ポイントを使用します。
+
+        </p>
+
+
+        <p class="smallText">
+
+            交換申請後、管理者による確認・対応を行います。
+
+        </p>
+
+
+        <p class="smallText">
+
+            ポイントや商品は随時変更される可能性がございます。
+            ご了承ください。
+
+        </p>
+
+
+    </div>
+
+
+    <!-- ==========================
+         マイページへ戻る
+    ========================== -->
+
+    <div class="card">
+
+
+        <a
+            href="mypage.html"
+            class="adminButton"
+        >
+
+            ← マイページへ戻る
+
+        </a>
+
+
+    </div>
+
+
+    <!-- ==========================
+         Footer
+    ========================== -->
+
+    <div class="footer">
+
+        Creators Data Base Ver.2.3
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================
+     JavaScript
+========================== -->
+
+<script src="js/reward.js"></script>
+
+
+</body>
+
+</html>
