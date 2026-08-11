@@ -96,7 +96,7 @@ document.getElementById(
 
 const memberPoint =
 document.getElementById(
-    "memberPoint"
+    "currentPoint"
 );
 
 
