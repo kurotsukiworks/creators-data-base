@@ -658,6 +658,34 @@ if(
 }
 
 
+// ==============================
+// マイページへ戻る
+// ==============================
+
+const backMypage =
+document.getElementById(
+    "backMypage"
+);
+
+if(backMypage){
+
+    const currentToken =
+    sessionStorage.getItem(
+        "qrToken"
+    );
+
+    if(currentToken){
+
+        backMypage.href =
+            "mypage.html?token=" +
+            encodeURIComponent(
+                currentToken
+            );
+
+    }
+
+}
+
 // ======================================
 // End reward.js
 // ======================================
