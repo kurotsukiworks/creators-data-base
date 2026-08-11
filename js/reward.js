@@ -35,7 +35,9 @@ new URLSearchParams(
 );
 
 const token =
-params.get("token");
+params.get("token")
+||
+sessionStorage.getItem("qrToken");
 
 
 // ==============================
